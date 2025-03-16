@@ -15,3 +15,5 @@ Para conectarse al contenedor en modo interactivo:
 * exec: indicamos que vamos a pasar un comando.
 * -it Modo interactivo.
 * mysql -p: es el comando para entrar a la consola de mysql con el usuario root(si has trabajado con mysql en consola es lo mismo).
+
+Para iniciar la imagen de mysql: `docker start mysql-db`
