@@ -1,0 +1,38 @@
+GET http://localhost:3001/api/personal
+
+###
+
+POST http://localhost:3001/api/personal
+Content-Type: application/json
+
+{
+    "nombre": "purororor",
+    "direccion": "TEC DE CULIACAN",
+    "telefono": "1237890",
+    "estatus": 7
+}
+
+###
+
+GET http://localhost:3001/api/software
+
+###
+POST http://localhost:3001/api/software
+Content-Type: application/json
+
+{
+    "nombre": "testing",
+    "desarrollador": "testeooo",
+    "tipo": "holaholahola",
+    "licencia": "MITasdasd",
+    "version": "1.999999",
+    "descripcion": "lorem ipsum dolor sit amet"
+}
+
+###
+DELETE http://localhost:3001/api/software
+Content-Type: application/json
+
+{
+    "id": 7
+}

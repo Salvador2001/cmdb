@@ -47,6 +47,31 @@ Usar `npm install --save-dev @types/node` si se está haciendo uso de typescript
 
 Instalar el paquete zod usando `npm install zod --save` para hacer validaciones de esquemas usando typescript.
 
+---
+
+**Instalando CORS**
+
+Instalar el paquete CORS usando `npm i --save-dev cors` y `npm i --save-dev @types/cors` para permitir llamadas del frontend desde axios hacia la api.
+
 ## Frontend
 
-test
+Dentro de la carpeta `frontend`.
+Iniciar el proyecto con `npm create vue@latest`. Esta acción pedirá el nombre del proyecto que se volverá en una carpeta.
+Agregar Typescript y Vue Router, luego entrar a la carpeta del proyecto para ejecutar `npm install` y `npm run dev`, que ejecutará el servidor web del frontend. Tener cuidado con como se muestra en la terminal.
+
+> Tomar en cuenta que para que se comunique con el backend, éste debe estar corriendo también de fondo por separado.
+
+---
+
+**Extensiones recomendadas**
+
+Instalar las extensiones **Vue Extension Box** y **Vue VSCode Snippets** para autocompleción y mayor rapidez en el desarrollo de código.
+
+---
+
+**Instalando axios**
+
+Instalar axios usando `npm install axios --save`, que servirá para comunicarse con la API desde el frontend usando protocolo http.
+
+---
+
