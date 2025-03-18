@@ -15,4 +15,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  //  workaround para codespaces, eliminar en prod
+  //  source: https://github.com/4Min4m/proxyDemo
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true, 
+        secure: false,
+      }
+    }
+  }
 })
