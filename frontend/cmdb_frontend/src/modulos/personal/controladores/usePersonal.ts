@@ -8,7 +8,7 @@ export const usePersonal = () => {
     const traePersonal = async () => {
         const respuesta = await personalApi.get<Personal[]>('/')
         personal.value = respuesta.data
-        console.log(personal.value)
+        console.log(personal.value) //debug
     }
 
     return{
