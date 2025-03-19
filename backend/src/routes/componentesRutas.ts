@@ -1,32 +1,32 @@
 import express, { Request, Response } from 'express';
-import * as hardwareServices from '../services/hardwareServices';
+import * as componentesServices from '../services/componentesServices';
 
 const router = express.Router();
 
 router.get('/', async (_req: Request, res: Response) => {
-    let hardware = await hardwareServices.obtieneHardware();
-    res.send(hardware);
+    let componente = await componentesServices.obtieneComponentes();
+    res.send(componente);
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-    let hardware = await hardwareServices.encuentraHardware(Number(req.params.id));
-    res.send(hardware);
+    let componente = await componentesServices.encuentraComponente(Number(req.params.id));
+    res.send(componente);
 });
 
 router.post('/', async (req: Request, res: Response) => {
     try {
         const { nombre, fabricante, tipo, estatus, configuracion } = req.body;
-        const nuevo = await hardwareServices.agregarHardware({ nombre, fabricante, tipo, estatus, configuracion });
+        const nuevo = await componentesServices.agregarComponente({ nombre, fabricante, tipo, estatus, configuracion });
         res.send(nuevo);
     } catch (err) {
-        res.send('No se puede agregar el hardware');
+        res.send('No se puede agregar el componente');
     }
 });
 
 router.put('/', async (req: Request, res: Response) => {
     try {
         const { id, nombre, fabricante, tipo, estatus, configuracion } = req.body;
-        const modificado = await hardwareServices.modificarHardware({ id, nombre, fabricante, tipo, estatus, configuracion });
+        const modificado = await componentesServices.modificarComponente({ id, nombre, fabricante, tipo, estatus, configuracion });
         res.send(modificado);
     } catch (e) {
         res.status(400).send("Error en los datos");
@@ -36,7 +36,7 @@ router.put('/', async (req: Request, res: Response) => {
 router.delete('/', async (req: Request, res: Response) => {
     try {
         const { id } = req.body;
-        const eliminado = await hardwareServices.borrarHardware(Number(id));
+        const eliminado = await componentesServices.borrarComponente(Number(id));
         res.send(eliminado);
     } catch (e) {
         res.status(400).send('Error en los datos');

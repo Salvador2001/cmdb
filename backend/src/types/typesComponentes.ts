@@ -1,4 +1,4 @@
-export interface Hardware {
+export interface Componente {
     id: number;
     nombre: string;
     fabricante: string;
@@ -7,7 +7,7 @@ export interface Hardware {
     configuracion: number | null;
 }
 
-export interface HardwareNuevo {
+export interface ComponenteNuevo {
     nombre: string;
     fabricante: string;
     tipo: string;

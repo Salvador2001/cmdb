@@ -30,7 +30,7 @@ export const encuentraConfiguracion = async (id: number) => {
 
 export const agregarConfiguracion = async (nueva: ConfiguracionNueva) => {
     try {
-        const [results] = await conexion.query('INSERT INTO Configuraciones(estatus, ubicacion) values (?,?)', [nueva.estatus, nueva.ubicacion]);
+        const [results] = await conexion.query('INSERT INTO Configuraciones(nombre, fabricante, tipo, estatus, ubicacion) values (?,?,?,?,?)', [nueva.nombre, nueva.fabricante, nueva.tipo, nueva.estatus, nueva.ubicacion]);
         return results;
     } catch (err) {
         return { error: "No se puede agregar la configuración" };
@@ -39,7 +39,7 @@ export const agregarConfiguracion = async (nueva: ConfiguracionNueva) => {
 
 export const modificarConfiguracion = async (modificada: Configuracion) => {
     try {
-        const [results] = await conexion.query('UPDATE Configuraciones SET estatus=?, ubicacion=? WHERE id=?', [modificada.estatus, modificada.ubicacion, modificada.id]);
+        const [results] = await conexion.query('UPDATE Configuraciones SET nombre=?, fabricante=?, tipo=?, estatus=?, ubicacion=? WHERE id=?', [modificada.nombre, modificada.fabricante, modificada.tipo, modificada.estatus, modificada.ubicacion, modificada.id]);
         return results;
     } catch (err) {
         return { error: "No se puede modificar la configuración" };

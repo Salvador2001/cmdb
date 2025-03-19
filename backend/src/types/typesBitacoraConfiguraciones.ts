@@ -1,14 +1,12 @@
-export interface BitacoraSoftware {
+export interface BitacoraConfiguraciones {
     id: number;
     operacion: string;
     fecha: Date;
     configuracion: number;
-    software: number;
 }
 
-export interface BitacoraSoftwareNueva {
+export interface BitacoraConfiguracionesNueva {
     operacion: string;
     fecha: Date;
     configuracion: number;
-    software: number;
 }

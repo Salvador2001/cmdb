@@ -15,9 +15,9 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { tipo, fecha, configuracion, software } = req.body;
+        const { operacion, fecha, configuracion, software } = req.body;
         const nueva = await bitacoraSoftwareServices.agregarBitacoraSoftware({
-            tipo,
+            operacion,
             fecha,
             configuracion,
             software
@@ -30,10 +30,10 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, tipo, fecha, configuracion, software } = req.body;
+        const { id, operacion, fecha, configuracion, software } = req.body;
         const modificada = await bitacoraSoftwareServices.modificarBitacoraSoftware({
             id,
-            tipo,
+            operacion,
             fecha,
             configuracion,
             software
