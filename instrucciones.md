@@ -75,3 +75,7 @@ Instalar axios usando `npm install axios --save`, que servirá para comunicarse 
 
 ---
 
+**Instalando zod**
+
+Instalar zod usando `npm install zod --save` para hacer validaciones en el frontend.
+Instalar paquete para incluir junto con vue usando `npm install @vee-validate/zod`.
