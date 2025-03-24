@@ -30,7 +30,7 @@ export const encuentraUsuario = async (id: number) => {
 
 export const agregarUsuario = async (nuevo: UsuarioNuevo) => {
     try {
-        const [results] = await conexion.query('INSERT INTO Usuarios(nombre, correo, rol, departamento) values (?,?,?,?)', [nuevo.nombre, nuevo.correo, nuevo.rol, nuevo.departamento]);
+        const [results] = await conexion.query('INSERT INTO Usuarios(nombre, rol, departamento) values (?,?,?)', [nuevo.nombre, nuevo.rol, nuevo.departamento]);
         return results;
     } catch (err) {
         return { error: "No se puede agregar el usuario" };
@@ -39,7 +39,7 @@ export const agregarUsuario = async (nuevo: UsuarioNuevo) => {
 
 export const modificarUsuario = async (modificado: Usuario) => {
     try {
-        const [results] = await conexion.query('UPDATE Usuarios SET nombre=?, correo=?, rol=?, departamento=? WHERE id=?', [modificado.nombre, modificado.correo, modificado.rol, modificado.departamento, modificado.id]);
+        const [results] = await conexion.query('UPDATE Usuarios SET nombre=?, rol=?, departamento=? WHERE id=?', [modificado.nombre, modificado.rol, modificado.departamento, modificado.id]);
         return results;
     } catch (err) {
         return { error: "No se puede modificar el usuario" };

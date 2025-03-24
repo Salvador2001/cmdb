@@ -21,10 +21,10 @@ export const obtieneComponentes = async () => {
 
 export const encuentraComponente = async (id: number) => {
     try {
-        const [results] = await conexion.query('SELECT * FROM Componentes WHERE id = ? LIMIT 1', [id]);
+        const [results] = await conexion.query('SELECT * FROM Componentes WHERE id = ?', [id]);
         return results;
     } catch (err) {
-        return { error: "No se encuentra ese componente" };
+        return { error: "No se encuentran componentes con esa id" };
     }
 }
 

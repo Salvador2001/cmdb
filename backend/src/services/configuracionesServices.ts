@@ -19,6 +19,32 @@ export const obtieneConfiguraciones = async () => {
     }
 }
 
+export const obtieneConfiguracionesPorDepartamento = async (departamentoId: number) => {
+    try {
+        const [results] = await conexion.query(`
+            SELECT 
+                c.id,
+                c.nombre,
+                c.fabricante,
+                c.tipo,
+                c.estatus,
+                u.nombre AS ubicacion,
+                d.nombre AS departamento
+            FROM 
+                Configuraciones c
+            JOIN 
+                Ubicacion u ON c.ubicacion = u.id
+            JOIN 
+                Departamentos d ON u.departamento = d.id
+            WHERE 
+                d.id = ?;
+        `, [departamentoId]);
+        return results;
+    } catch (err) {
+        return { error: "No se pueden obtener las configuraciones de ese departamento" };
+    }
+};
+
 export const encuentraConfiguracion = async (id: number) => {
     try {
         const [results] = await conexion.query('SELECT * FROM Configuraciones WHERE id = ? LIMIT 1', [id]);

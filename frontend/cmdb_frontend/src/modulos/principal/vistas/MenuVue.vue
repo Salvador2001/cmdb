@@ -10,13 +10,21 @@
                 <div class="navbar-nav">
                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item margin">
-                            <RouterLink class="nav-link item" to="/personal">Personal</RouterLink>
+                            <!-- <RouterLink class="nav-link item" to="/personal">Personal</RouterLink> -->
                         </li>
-                        <li class="nav-item margin">
+                        <li v-if="authed" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/configuraciones">Configuraciones</RouterLink>
                         </li>
                    </ul>
                 </div>
+            </div>
+        </div>
+        <div class="auth">
+            <div v-if="authed">
+                <button class="btn btn-outline-light" @click="logout"><i class="fa fa-user-times"></i></button>
+            </div>
+            <div v-else>
+                <RouterLink class="btn btn-outline-light" to="/login"><i class="fa fa-user-plus"></i></RouterLink>
             </div>
         </div>
     </nav>
@@ -24,7 +32,26 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+
+    const router = useRouter()
+    const authed = ref(false);
+
+    onMounted(() => {
+        //Verificar si ya hay un usuario autenticado
+        if (localStorage.getItem('usuario') && localStorage.getItem('credencial')) {
+            authed.value = true
+        }
+    })
+
+    const logout = () => {
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('credencial');
+        authed.value = false;
+        router.push('/bienvenida');
+    }
 </script>
 
 <style scoped>

@@ -2,6 +2,28 @@ GET http://localhost:3001/api/personal
 
 ###
 
+GET http://localhost:3001/api/credenciales/correo/carlos.perez@example.com
+
+###
+
+GET http://localhost:3001/api/credenciales/auth/carlos.perez@example.com/asd
+
+###
+
+GET http://localhost:3001/api/configuraciones/1
+
+###
+
+POST http://localhost:3001/api/credenciales
+Content-Type: application/json
+
+{
+    "correo": "asdasdasdasda@hotmail.com",
+    "contrasenia": "asdasdasd",
+    "usuario": 17
+}
+
+###
 POST http://localhost:3001/api/personal
 Content-Type: application/json
 

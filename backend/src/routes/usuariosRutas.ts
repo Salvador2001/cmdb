@@ -15,8 +15,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { nombre, correo, rol, departamento } = req.body;
-        const nuevo = await usuariosServices.agregarUsuario({ nombre, correo, rol, departamento });
+        const { nombre, rol, departamento } = req.body;
+        const nuevo = await usuariosServices.agregarUsuario({ nombre, rol, departamento });
         res.send(nuevo);
     } catch (err) {
         res.send('No se puede agregar el usuario');
@@ -25,8 +25,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, nombre, correo, rol, departamento } = req.body;
-        const modificado = await usuariosServices.modificarUsuario({ id, nombre, correo, rol, departamento });
+        const { id, nombre, rol, departamento } = req.body;
+        const modificado = await usuariosServices.modificarUsuario({ id, nombre, rol, departamento });
         res.send(modificado);
     } catch (e) {
         res.status(400).send("Error en los datos");

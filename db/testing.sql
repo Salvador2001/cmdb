@@ -14,3 +14,23 @@ use testbackend;
 INSERT INTO personal (nombre, direccion, telefono, estatus)
 VALUES
     ("Programacion", "conocida","77777","1");
+
+use cmdb;
+
+SELECT 
+    c.id,
+    c.nombre,
+    c.fabricante,
+    c.tipo,
+    c.estatus,
+    u.nombre AS ubicacion,
+    d.nombre AS departamento
+FROM 
+    Configuraciones c
+JOIN 
+    Ubicacion u ON c.ubicacion = u.id
+JOIN 
+    Departamentos d ON u.departamento = d.id
+WHERE 
+    d.id = 1;
+select * from `Credenciales` WHERE correo = 'carlos.perez@example.com' AND contrasenia = 'asd';

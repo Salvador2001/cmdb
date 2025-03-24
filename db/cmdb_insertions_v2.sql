@@ -26,13 +26,21 @@ VALUES
     ('Marketing', 'Mercadotecnia'),
     ('Contabilidad', 'Contaduría Pública');
 
-INSERT INTO Usuarios (nombre, correo, rol, departamento)
+INSERT INTO Usuarios (nombre, rol, departamento)
 VALUES 
-    ('Carlos Pérez', 'carlos.perez@example.com', 1, 1),
-    ('Ana García', 'ana.garcia@example.com', 2, 2),
-    ('Luis Martínez', 'luis.martinez@example.com', 3, 3),
-    ('Marta López', 'marta.lopez@example.com', 4, 4),
-    ('José Fernández', 'jose.fernandez@example.com', 5, 5);
+    ('Carlos Pérez', 1, 1),
+    ('Ana García', 2, 2),
+    ('Luis Martínez', 3, 3),
+    ('Marta López', 4, 4),
+    ('José Fernández', 5, 5);
+
+INSERT INTO Credenciales (correo, contrasenia, usuario)
+VALUES 
+    ('carlos.perez@example.com', "asd", 1),
+    ('ana.garcia@example.com', "dsa", 2),
+    ('luis.martinez@example.com', "admin", 3),
+    ('marta.lopez@example.com', "pepito", 4),
+    ('jose.fernandez@example.com', "HSzldj427cmnsjakllo9", 5);
 
 INSERT INTO Ubicacion (nombre, tipo, edificio, departamento)
 VALUES 
