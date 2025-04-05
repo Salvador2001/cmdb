@@ -14,6 +14,10 @@
                     <input type="text" class="form-control" v-model="configuraciones[0].id" disabled>
                 </div>
                 <div class="mb-3">
+                    Serial
+                    <input type="text" class="form-control" v-model="configuraciones[0].serial" disabled>
+                </div>
+                <div class="mb-3">
                     Nombre
                     <input type="text" class="form-control" v-model="configuraciones[0].nombre" disabled>
                 </div>
@@ -26,12 +30,20 @@
                     <input type="text" class="form-control" v-model="configuraciones[0].tipo" disabled>
                 </div>
                 <div class="mb-3">
+                    Fecha de compra
+                    <input type="date" class="form-control" v-model="configuraciones[0].fecha_compra" disabled>
+                </div>
+                <div class="mb-3">
                     Estatus
                     <input type="text" class="form-control" v-model="configuraciones[0].estatus" disabled>
                 </div>
                 <div class="mb-3">
                     Ubicación
                     <input type="number" class="form-control" v-model="configuraciones[0].ubicacion" disabled>
+                </div>
+                <div class="mb-3">
+                    RFC
+                    <input type="text" class="form-control" v-model="configuraciones[0].rfc" disabled>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-danger" @click="borrarConfiguracion(configuraciones[0])">Borrar</button>

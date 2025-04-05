@@ -4,6 +4,7 @@ export interface Ubicacion {
     tipo: string;
     edificio: string;
     departamento: number;
+    responsable: string;
 }
 
 export interface UbicacionAgregar {
@@ -11,4 +12,5 @@ export interface UbicacionAgregar {
     tipo: string;
     edificio: string;
     departamento: number;
+    responsable: string;
 }

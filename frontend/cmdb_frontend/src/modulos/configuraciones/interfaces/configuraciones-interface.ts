@@ -5,6 +5,9 @@ export interface Configuracion {
     tipo: string;
     estatus: string;
     ubicacion: number | null;
+    serial: string;
+    fecha_compra: Date;
+    rfc: number | null;
 }
 
 export interface ConfiguracionAgregar {
@@ -13,4 +16,7 @@ export interface ConfiguracionAgregar {
     tipo: string;
     estatus: string;
     ubicacion: number | null;
+    serial: string;
+    fecha_compra: Date;
+    rfc: number | null;
 }

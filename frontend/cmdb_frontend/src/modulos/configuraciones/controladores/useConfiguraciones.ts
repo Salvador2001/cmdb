@@ -31,6 +31,10 @@ export const useConfiguraciones = () => {
     }
 
     const actualizarConfiguracion = async (configuracion:Configuracion) => {
+        console.log(configuracion)
+        if (configuracion.rfc == 0) {
+            configuracion.rfc = null
+        }
         const respuesta = await configuracionesApi.put('/', configuracion)
         if (respuesta.data.affectedRows >= 1) {
             mensaje.value = 1

@@ -4,6 +4,7 @@ export interface Ubicacion {
     tipo: string;
     edificio: string;
     departamento: number;
+    responsable: string;
 }
 
 export interface UbicacionNueva {
@@ -11,4 +12,5 @@ export interface UbicacionNueva {
     tipo: string;
     edificio: string;
     departamento: number;
+    responsable: string;
 }

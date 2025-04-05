@@ -30,7 +30,7 @@ export const encuentraComponente = async (id: number) => {
 
 export const agregarComponente = async (nuevo: ComponenteNuevo) => {
     try {
-        const [results] = await conexion.query('INSERT INTO Componentes(nombre, fabricante, tipo, estatus, configuracion) values (?,?,?,?,?)', [nuevo.nombre, nuevo.fabricante, nuevo.tipo, nuevo.estatus, nuevo.configuracion]);
+        const [results] = await conexion.query('INSERT INTO Componentes(nombre, fabricante, tipo, estatus, configuracion, rfc) values (?,?,?,?,?)', [nuevo.nombre, nuevo.fabricante, nuevo.tipo, nuevo.estatus, nuevo.configuracion, nuevo.rfc]);
         return results;
     } catch (err) {
         return { error: "No se puede agregar el componente" };
@@ -39,7 +39,7 @@ export const agregarComponente = async (nuevo: ComponenteNuevo) => {
 
 export const modificarComponente = async (modificado: Componente) => {
     try {
-        const [results] = await conexion.query('UPDATE Componentes SET nombre=?, fabricante=?, tipo=?, estatus=?, configuracion=? WHERE id=?', [modificado.nombre, modificado.fabricante, modificado.tipo, modificado.estatus, modificado.configuracion, modificado.id]);
+        const [results] = await conexion.query('UPDATE Componentes SET nombre=?, fabricante=?, tipo=?, estatus=?, configuracion=?, rfc=? WHERE id=?', [modificado.nombre, modificado.fabricante, modificado.tipo, modificado.estatus, modificado.configuracion, modificado.rfc, modificado.id]);
         return results;
     } catch (err) {
         return { error: "No se puede modificar el componente" };

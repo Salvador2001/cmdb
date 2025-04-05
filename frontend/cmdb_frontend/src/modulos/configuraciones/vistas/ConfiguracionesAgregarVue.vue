@@ -10,6 +10,11 @@
             <div class="card-body">
                 <Form @submit="onTodoBien">
                     <div class="mb-3">
+                        Serial
+                        <Field name="serial" type="text" class="form-control" v-model="configuracion.serial" />
+                        <ErrorMessage name="serial" class="errorValidacion" />
+                    </div>
+                    <div class="mb-3">
                         Nombre
                         <Field name="nombre" type="text" class="form-control" v-model="configuracion.nombre" />
                         <ErrorMessage name="nombre" class="errorValidacion" />
@@ -23,6 +28,11 @@
                         Tipo
                         <Field name="tipo" type="text" class="form-control" v-model="configuracion.tipo" />
                         <ErrorMessage name="tipo" class="errorValidacion" />
+                    </div>
+                    <div class="mb-3">
+                        Fecha de compra
+                        <Field name="fecha_compra" type="date" class="form-control" v-model="configuracion.fecha_compra" />
+                        <ErrorMessage name="fecha_compra" class="errorValidacion" />
                     </div>
                     <div class="mb-3">
                         Estatus
@@ -56,7 +66,10 @@ let configuracion = ref<ConfiguracionAgregar>({
     fabricante: '',
     tipo: '',
     estatus: '',
-    ubicacion: null
+    ubicacion: null,
+    serial: '',
+    fecha_compra: new Date(),
+    rfc: null
 });
 
 const onTodoBien = async () => {

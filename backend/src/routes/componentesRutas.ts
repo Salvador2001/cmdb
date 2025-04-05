@@ -15,8 +15,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { nombre, fabricante, tipo, estatus, configuracion } = req.body;
-        const nuevo = await componentesServices.agregarComponente({ nombre, fabricante, tipo, estatus, configuracion });
+        const { nombre, fabricante, tipo, estatus, configuracion, rfc } = req.body;
+        const nuevo = await componentesServices.agregarComponente({ nombre, fabricante, tipo, estatus, configuracion, rfc });
         res.send(nuevo);
     } catch (err) {
         res.send('No se puede agregar el componente');
@@ -25,8 +25,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, nombre, fabricante, tipo, estatus, configuracion } = req.body;
-        const modificado = await componentesServices.modificarComponente({ id, nombre, fabricante, tipo, estatus, configuracion });
+        const { id, nombre, fabricante, tipo, estatus, configuracion, rfc } = req.body;
+        const modificado = await componentesServices.modificarComponente({ id, nombre, fabricante, tipo, estatus, configuracion, rfc });
         res.send(modificado);
     } catch (e) {
         res.status(400).send("Error en los datos");

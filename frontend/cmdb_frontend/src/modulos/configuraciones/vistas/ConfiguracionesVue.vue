@@ -16,11 +16,14 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Serial</th>
                     <th>Nombre</th>
                     <th>Fabricante</th>
                     <th>Tipo</th>
+                    <th>Fecha de compra</th>
                     <th>Estatus</th>
                     <th>Ubicación</th>
+                    <th>RFC</th>
                     <th></th>
                 </tr>
             </thead>
@@ -30,11 +33,14 @@
                 </tr>
                 <tr v-else v-for="(configuracion, index) in configuraciones" :key="index">
                     <td>{{ configuracion.id }}</td>
+                    <td>{{ configuracion.serial }}</td>
                     <td>{{ configuracion.nombre }}</td>
                     <td>{{ configuracion.fabricante }}</td>
                     <td>{{ configuracion.tipo }}</td>
+                    <td>{{ configuracion.fecha_compra }}</td>
                     <td>{{ configuracion.estatus }}</td>
                     <td>{{ configuracion.ubicacion }}</td>
+                    <td>{{ configuracion.rfc }}</td>
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
@@ -67,6 +73,7 @@
                     <th>Fabricante</th>
                     <th>Tipo</th>
                     <th>Estatus</th>
+                    <th>RFC</th>
                     <th></th>
                 </tr>
             </thead>
@@ -80,6 +87,7 @@
                     <td>{{ componentes.fabricante }}</td>
                     <td>{{ componentes.tipo }}</td>
                     <td>{{ componentes.estatus }}</td>
+                    <td>{{ componentes.rfc }}</td>
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             

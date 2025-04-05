@@ -5,6 +5,7 @@ export interface Componente {
     tipo: string;
     estatus: string;
     configuracion: number | null;
+    rfc: number | null;
 }
 
 export interface ComponenteAgregar {
@@ -13,4 +14,5 @@ export interface ComponenteAgregar {
     tipo: string;
     estatus: string;
     configuracion: number | null;
+    rfc: number | null;
 }

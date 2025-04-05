@@ -29,6 +29,9 @@ export const obtieneConfiguracionesPorDepartamento = async (departamentoId: numb
                 c.tipo,
                 c.estatus,
                 u.nombre AS ubicacion,
+                c.serial,
+                c.fecha_compra,
+                c.rfc,
                 d.nombre AS departamento
             FROM 
                 Configuraciones c
@@ -56,7 +59,7 @@ export const encuentraConfiguracion = async (id: number) => {
 
 export const agregarConfiguracion = async (nueva: ConfiguracionNueva) => {
     try {
-        const [results] = await conexion.query('INSERT INTO Configuraciones(nombre, fabricante, tipo, estatus, ubicacion) values (?,?,?,?,?)', [nueva.nombre, nueva.fabricante, nueva.tipo, nueva.estatus, nueva.ubicacion]);
+        const [results] = await conexion.query('INSERT INTO Configuraciones(nombre, fabricante, tipo, estatus, ubicacion, serial, fecha_compra, rfc) values (?,?,?,?,?,?,?,?)', [nueva.nombre, nueva.fabricante, nueva.tipo, nueva.estatus, nueva.ubicacion, nueva.serial, nueva.fecha_compra, nueva.rfc]);
         return results;
     } catch (err) {
         return { error: "No se puede agregar la configuración" };
@@ -65,7 +68,7 @@ export const agregarConfiguracion = async (nueva: ConfiguracionNueva) => {
 
 export const modificarConfiguracion = async (modificada: Configuracion) => {
     try {
-        const [results] = await conexion.query('UPDATE Configuraciones SET nombre=?, fabricante=?, tipo=?, estatus=?, ubicacion=? WHERE id=?', [modificada.nombre, modificada.fabricante, modificada.tipo, modificada.estatus, modificada.ubicacion, modificada.id]);
+        const [results] = await conexion.query('UPDATE Configuraciones SET nombre=?, fabricante=?, tipo=?, estatus=?, ubicacion=?, serial=?, fecha_compra=?, rfc=? WHERE id=?', [modificada.nombre, modificada.fabricante, modificada.tipo, modificada.estatus, modificada.ubicacion, modificada.serial, modificada.fecha_compra, modificada.rfc, modificada.id]);
         return results;
     } catch (err) {
         return { error: "No se puede modificar la configuración" };

@@ -55,8 +55,6 @@ CREATE TABLE Configuraciones(
     tipo VARCHAR(50) CHARACTER SET utf8mb4, -- laptop, desktop, servidor, etc.
     estatus VARCHAR(50) CHARACTER SET utf8mb4, -- activo, inactivo, en espera, etc.
     ubicacion INT UNSIGNED,
-    -- registro? desde el lado de incidencias, ya sería instalación, cambio software, etc.
-    -- incidencia <- no implementado.
     FOREIGN KEY (ubicacion) REFERENCES Ubicacion(id)
 );
 
@@ -128,3 +126,90 @@ CREATE TABLE BitacoraSoftware( -- Cambios que se hayan hecho a software de una c
     FOREIGN KEY (software) REFERENCES Software(id),
     FOREIGN KEY (configuracion, software) REFERENCES ConjuntoSoftware(configuracion, software)
 );
+
+-- Modificaciones
+ALTER TABLE Ubicacion
+ADD COLUMN responsable VARCHAR(100) CHARACTER SET utf8mb4 DEFAULT NULL;
+
+ALTER TABLE Configuraciones
+ADD COLUMN serial VARCHAR(100) CHARACTER SET utf8mb4 DEFAULT NULL UNIQUE,
+ADD COLUMN fecha_compra DATETIME DEFAULT NULL
+
+-- Módulo de incidencias
+CREATE TABLE Incidencias(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    folio VARCHAR(8) CHARACTER SET utf8mb4 UNIQUE NOT NULL,
+    descripcion TEXT CHARACTER SET utf8mb4 NOT NULL,
+    categoria VARCHAR(50) CHARACTER SET utf8mb4,
+    prioridad VARCHAR(50) CHARACTER SET utf8mb4,
+    estatus VARCHAR(50) CHARACTER SET utf8mb4, -- abierto, en progreso, resuelto, cerrado, etc.
+    fecha_creacion DATETIME NOT NULL,
+    autor INT UNSIGNED NOT NULL,
+    configuracion INT UNSIGNED NOT NULL,
+    departamento INT UNSIGNED NOT NULL,
+    FOREIGN KEY (autor) REFERENCES Usuarios(id),
+    FOREIGN KEY (configuracion) REFERENCES Configuraciones(id),
+    FOREIGN KEY (departamento) REFERENCES Departamentos(id)
+);
+
+CREATE TABLE Servicios(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(50) CHARACTER SET utf8mb4, -- servicio, soporte, mantenimiento, etc.
+    incidencia INT UNSIGNED NOT NULL,
+    FOREIGN KEY (incidencia) REFERENCES Incidencias(id)
+);
+
+CREATE TABLE ServiciosAsignados(
+    servicio INT UNSIGNED NOT NULL,
+    responsable INT UNSIGNED NOT NULL,
+    FOREIGN KEY (servicio) REFERENCES Servicios(id),
+    FOREIGN KEY (responsable) REFERENCES Usuarios(id)
+)
+
+CREATE TABLE Evaluaciones(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    puntuacion VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL, -- bueno, regular, malo.
+    comentario TEXT CHARACTER SET utf8mb4,
+    evaluador INT UNSIGNED NOT NULL,
+    servicio INT UNSIGNED NOT NULL,
+    FOREIGN KEY (evaluador) REFERENCES Usuarios(id),
+    FOREIGN KEY (servicio) REFERENCES Servicios(id)
+)
+
+CREATE TABLE SolicitudesCambio(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    estatus VARCHAR(50) CHARACTER SET utf8mb4, -- pendiente, aceptada, rechazada.
+    requiere_comite BOOLEAN DEFAULT FALSE, -- si requiere comite o no.
+    servicio INT UNSIGNED NOT NULL,
+    FOREIGN KEY (servicio) REFERENCES Servicios(id)
+)
+
+CREATE TABLE BitacoraUsuarios(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    operacion VARCHAR(50) CHARACTER SET utf8mb4, -- ingreso, cambio de contraseña, etc.
+    usuario INT UNSIGNED NOT NULL,
+    FOREIGN KEY (usuario) REFERENCES Usuarios(id)
+)
+
+CREATE TABLE BitacoraIncidencias(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    operacion VARCHAR(50) CHARACTER SET utf8mb4, -- cambio de estatus, prioridad, etc.
+    incidencia INT UNSIGNED NOT NULL,
+    FOREIGN KEY (incidencia) REFERENCES Incidencias(id)
+)
+
+-- Modificaciones
+ALTER TABLE Configuraciones
+ADD COLUMN rfc INT UNSIGNED DEFAULT NULL,
+ADD FOREIGN KEY (rfc) REFERENCES SolicitudesCambio(id);
+
+ALTER TABLE Componentes
+ADD COLUMN rfc INT UNSIGNED DEFAULT NULL,
+ADD FOREIGN KEY (rfc) REFERENCES SolicitudesCambio(id);
+
+ALTER TABLE SolicitudesCambio
+ADD COLUMN folio VARCHAR(8) CHARACTER SET utf8mb4 UNIQUE NOT NULL;

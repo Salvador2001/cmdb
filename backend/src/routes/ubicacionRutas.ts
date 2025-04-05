@@ -15,8 +15,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { nombre, tipo, edificio, departamento } = req.body;
-        const nueva = await ubicacionServices.agregarUbicacion({ nombre, tipo, edificio, departamento });
+        const { nombre, tipo, edificio, departamento, responsable } = req.body;
+        const nueva = await ubicacionServices.agregarUbicacion({ nombre, tipo, edificio, departamento, responsable });
         res.send(nueva);
     } catch (err) {
         res.send('No se puede agregar la ubicación');
@@ -25,8 +25,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, nombre, tipo, edificio, departamento } = req.body;
-        const modificada = await ubicacionServices.modificarUbicacion({ id, nombre, tipo, edificio, departamento });
+        const { id, nombre, tipo, edificio, departamento, responsable } = req.body;
+        const modificada = await ubicacionServices.modificarUbicacion({ id, nombre, tipo, edificio, departamento, responsable });
         res.send(modificada);
     } catch (e) {
         res.status(400).send("Error en los datos");

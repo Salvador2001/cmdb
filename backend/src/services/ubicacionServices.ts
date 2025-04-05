@@ -30,7 +30,7 @@ export const encuentraUbicacion = async (id: number) => {
 
 export const agregarUbicacion = async (nueva: UbicacionNueva) => {
     try {
-        const [results] = await conexion.query('INSERT INTO Ubicacion(nombre, tipo, edificio, departamento) values (?,?,?,?)', [nueva.nombre, nueva.tipo, nueva.edificio, nueva.departamento]);
+        const [results] = await conexion.query('INSERT INTO Ubicacion(nombre, tipo, edificio, departamento, responsable) values (?,?,?,?)', [nueva.nombre, nueva.tipo, nueva.edificio, nueva.departamento, nueva.responsable]);
         return results;
     } catch (err) {
         return { error: "No se puede agregar la ubicación" };
@@ -39,7 +39,7 @@ export const agregarUbicacion = async (nueva: UbicacionNueva) => {
 
 export const modificarUbicacion = async (modificada: Ubicacion) => {
     try {
-        const [results] = await conexion.query('UPDATE Ubicacion SET nombre=?, tipo=?, edificio=?, departamento=? WHERE id=?', [modificada.nombre, modificada.tipo, modificada.edificio, modificada.departamento, modificada.id]);
+        const [results] = await conexion.query('UPDATE Ubicacion SET nombre=?, tipo=?, edificio=?, departamento=?, responsable=? WHERE id=?', [modificada.nombre, modificada.tipo, modificada.edificio, modificada.departamento, modificada.responsable, modificada.id]);
         return results;
     } catch (err) {
         return { error: "No se puede modificar la ubicación" };
