@@ -1,6 +1,6 @@
 export interface SolicitudCambio {
     id: number;
-    fecha: Date;
+    fecha: string;
     estatus: string;
     requiere_comite: boolean;
     servicio: number;
@@ -8,7 +8,7 @@ export interface SolicitudCambio {
 }
 
 export interface SolicitudCambioNueva {
-    fecha: Date;
+    fecha: string;
     estatus: string;
     requiere_comite: boolean;
     servicio: number;

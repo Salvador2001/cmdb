@@ -1,12 +1,12 @@
 export interface BitacoraUsuario {
     id: number;
-    fecha: Date;
+    fecha: string;
     operacion: string;
     usuario: number;
 }
 
 export interface BitacoraUsuarioNueva {
-    fecha: Date;
+    fecha: string;
     operacion: string;
     usuario: number;
 }

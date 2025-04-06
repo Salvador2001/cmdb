@@ -1,6 +1,6 @@
 export interface Evaluacion {
     id: number;
-    fecha: Date;
+    fecha: string;
     puntuacion: string;
     comentario: string;
     evaluador: number;
@@ -8,7 +8,7 @@ export interface Evaluacion {
 }
 
 export interface EvaluacionNueva {
-    fecha: Date;
+    fecha: string;
     puntuacion: string;
     comentario: string;
     evaluador: number;

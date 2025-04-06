@@ -5,7 +5,7 @@ export interface Incidencia {
     categoria: string;
     prioridad: string;
     estatus: string;
-    fecha_creacion: Date;
+    fecha_creacion: string;
     autor: number;
     configuracion: number;
     departamento: number;
@@ -17,7 +17,7 @@ export interface IncidenciaNueva {
     categoria: string;
     prioridad: string;
     estatus: string;
-    fecha_creacion: Date;
+    fecha_creacion: string;
     autor: number;
     configuracion: number;
     departamento: number;

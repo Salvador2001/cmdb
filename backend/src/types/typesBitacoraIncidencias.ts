@@ -1,12 +1,12 @@
 export interface BitacoraIncidencia {
     id: number;
-    fecha: Date;
+    fecha: string;
     operacion: string;
     incidencia: number;
 }
 
 export interface BitacoraIncidenciaNueva {
-    fecha: Date;
+    fecha: string;
     operacion: string;
     incidencia: number;
 }

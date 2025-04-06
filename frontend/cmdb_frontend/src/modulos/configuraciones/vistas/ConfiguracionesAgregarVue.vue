@@ -68,7 +68,7 @@ let configuracion = ref<ConfiguracionAgregar>({
     estatus: '',
     ubicacion: null,
     serial: '',
-    fecha_compra: new Date(),
+    fecha_compra: '',
     rfc: null
 });
 

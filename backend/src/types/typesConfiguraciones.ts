@@ -6,7 +6,7 @@ export interface Configuracion {
     estatus: string;
     ubicacion: number;
     serial: string;
-    fecha_compra: Date;
+    fecha_compra: string;
     rfc: number | null;
 }
 
@@ -17,6 +17,6 @@ export interface ConfiguracionNueva {
     estatus: string;
     ubicacion: number;
     serial: string;
-    fecha_compra: Date;
+    fecha_compra: string;
     rfc: number | null;
 }

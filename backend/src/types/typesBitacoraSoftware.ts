@@ -1,14 +1,14 @@
 export interface BitacoraSoftware {
     id: number;
     operacion: string;
-    fecha: Date;
+    fecha: string;
     configuracion: number;
     software: number;
 }
 
 export interface BitacoraSoftwareNueva {
     operacion: string;
-    fecha: Date;
+    fecha: string;
     configuracion: number;
     software: number;
 }
