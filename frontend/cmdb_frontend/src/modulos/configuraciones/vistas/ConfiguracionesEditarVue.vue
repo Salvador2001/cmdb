@@ -56,8 +56,10 @@
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useConfiguraciones } from '../controladores/useConfiguraciones';
+import { dateHelper } from '@/util/dateHelper';
 
 const { traeConfiguracionId, actualizarConfiguracion, mensaje, configuraciones } = useConfiguraciones();
+const { getFecha } = dateHelper();
 
 let idConfiguracion = 0;
 const route = useRoute();
@@ -65,6 +67,7 @@ const route = useRoute();
 onMounted(async () => {
     idConfiguracion = Number(route.params.id);
     await traeConfiguracionId(idConfiguracion);
+    configuraciones.value[0].fecha_compra = getFecha(configuraciones.value[0].fecha_compra);
 });
 </script>
 

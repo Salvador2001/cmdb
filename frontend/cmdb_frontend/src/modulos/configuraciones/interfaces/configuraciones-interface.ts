@@ -20,3 +20,15 @@ export interface ConfiguracionAgregar {
     fecha_compra: string;
     rfc: number | null;
 }
+
+export interface ConfiguracionVista {
+    id: number,
+    nombre: string;
+    fabricante: string;
+    tipo: string;
+    estatus: string;
+    ubicacion: string;
+    serial: string;
+    fecha_compra: string;
+    rfc: string; // cambiar a serial luego
+}

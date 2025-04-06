@@ -27,11 +27,11 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody v-if="isAdmin == true">
                 <tr v-if="configuraciones.length === 0">
                     <td class="centrado" colspan="7">Sin configuraciones registradas</td>
                 </tr>
-                <tr v-else v-for="(configuracion, index) in configuraciones" :key="index">
+                <tr v-else v-for="(configuracion, index) in configuracionesVista" :key="index">
                     <td>{{ configuracion.id }}</td>
                     <td>{{ configuracion.serial }}</td>
                     <td>{{ configuracion.nombre }}</td>
@@ -59,8 +59,35 @@
                     </td>
                 </tr>
             </tbody>
+            <tbody v-else>
+                <tr v-if="configuraciones.length === 0">
+                    <td class="centrado" colspan="7">Sin configuraciones registradas</td>
+                </tr>
+                <tr v-else v-for="(configuracion, index) in configuraciones" :key="index">
+                    <td>{{ configuracion.id }}</td>
+                    <td>{{ configuracion.serial }}</td>
+                    <td>{{ configuracion.nombre }}</td>
+                    <td>{{ configuracion.fabricante }}</td>
+                    <td>{{ configuracion.tipo }}</td>
+                    <td>{{ configuracion.fecha_compra }}</td>
+                    <td>{{ configuracion.estatus }}</td>
+                    <td>{{ configuracion.ubicacion }}</td>
+                    <td>{{ configuracion.rfc }}</td>
+                    <td class="centrado">
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
+                                <i class="fa fa-microchip"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-info">
+                                <i class="fa fa-cogs"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
+    <div v-if="vista == 'componentes'">
     <section class="section-componentes">
         <h4>Componentes</h4>
     </section>
@@ -97,6 +124,7 @@
             </tbody>
         </table>
     </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -105,14 +133,22 @@ import { useConfiguraciones } from '../controladores/useConfiguraciones'
 import { useComponentes } from '@/modulos/componentes/controladores/useComponentes'
 import { useUsuarios } from '@/modulos/usuarios/controladores/useUsuarios'
 import { useDepartamentos } from '@/modulos/departamentos/controladores/useDepartamentos'
+import { dateHelper } from '@/util/dateHelper'
+import { useUbicacion } from '@/modulos/ubicacion/controladores/useUbicacion'
+import type { ConfiguracionVista } from '../interfaces/configuraciones-interface'
 const { traeConfiguraciones, traeConfiguracionesPorDepartamento, configuraciones } = useConfiguraciones()
 const { traeComponenteId, componentes } = useComponentes()
 const { traeDepartamentoId, departamentos } = useDepartamentos()
+const { traeUbicacionId, ubicaciones } = useUbicacion()
 //const { usuarios } = useUsuarios()
+const { getFecha } = dateHelper();
 
     let isAdmin = ref(false)
     let vista = ref('')
     let nombreDepartamento = ref('')
+    let botonPresionado = 0;
+
+    let configuracionesVista = ref<ConfiguracionVista[]>([])
 
     // Cuando la página es visible y está cargada
     onMounted(async () => {
@@ -131,12 +167,47 @@ const { traeDepartamentoId, departamentos } = useDepartamentos()
             await traeDepartamentoId(usuarios.value.departamento)
             nombreDepartamento.value = departamentos.value[0].nombre
         }
+        configuraciones.value.forEach((configuracion) => {
+            if (configuracion.fecha_compra != null){
+                configuracion.fecha_compra = getFecha(configuracion.fecha_compra)
+            }
+        })
+
+        for (const configuracion of configuraciones.value) {
+            if (configuracion.ubicacion != null) {
+                await traeUbicacionId(configuracion.ubicacion)
+            } else {
+                configuracion.ubicacion = null
+            }
+            configuracionesVista.value.push({
+                id: configuracion.id,
+                serial: configuracion.serial,
+                nombre: configuracion.nombre,
+                fabricante: configuracion.fabricante,
+                tipo: configuracion.tipo,
+                fecha_compra: configuracion.fecha_compra,
+                estatus: configuracion.estatus,
+                ubicacion: configuracion.ubicacion ? ubicaciones.value[0].nombre : '',
+                rfc: configuracion.rfc ? configuracion.rfc.toString() : '',
+            })
+        }
     })
 
     const verComponentes = async (id: number) => {
         vista.value = 'componentes'
         await traeComponenteId(id)
     }
+
+    //  TODO: Implementar vista de software, requiere cambios en la api del backend
+    const verSoftware = async (id: number) => {
+        vista.value = 'software'
+        await traeComponenteId(id)
+    }
+
+    // const getNombreUbicacion = async (id: number) => {
+    //     await traeUbicacionId(id)
+    //     return ubicaciones.value[0].nombre
+    // }
 
     // load <--- carga, en memoria
     // mounted <--- cargada y se ve en pantalla
