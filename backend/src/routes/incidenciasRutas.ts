@@ -8,6 +8,11 @@ router.get('/', async (_req: Request, res: Response) => {
     res.send(incidencias);
 });
 
+router.get('/departamento/:id', async (req: Request, res: Response) => {
+    let incidencias = await incidenciasServices.obtieneIncidenciasPorDepartamento(Number(req.params.id));
+    res.send(incidencias);
+});
+
 router.get('/:id', async (req: Request, res: Response) => {
     let incidencia = await incidenciasServices.encuentraIncidencia(Number(req.params.id));
     res.send(incidencia);

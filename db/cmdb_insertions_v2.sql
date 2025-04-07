@@ -122,3 +122,13 @@ VALUES
     ('Cambio', '2025-03-12 10:00:00', 3, 3),
     ('Actualización', '2025-03-13 11:00:00', 4, 4),
     ('Desinstalación', '2025-03-14 12:00:00', 5, 5);
+
+--- módulo incidencias
+use cmdb;
+INSERT INTO Incidencias (folio, descripcion, categoria, prioridad, estatus, fecha_creacion, autor, configuracion, departamento)
+VALUES
+    ('INC001', 'Error en el sistema operativo', 'Software', 'Alta', 'Abierto', '2023-10-01 10:00:00', 1, 1, 1),
+    ('INC002', 'Fallo en el hardware', 'Hardware', 'Media', 'En progreso', '2023-10-02 11:30:00', 2, 2, 2),
+    ('INC003', 'Problema de red en oficina', 'Red', 'Alta', 'Resuelto', '2023-10-03 09:15:00', 3, 3, 3),
+    ('INC004', 'Actualización de software pendiente', 'Software', 'Baja', 'Cerrado', '2023-10-04 14:45:00', 4, 4, 4),
+    ('INC005', 'Impresora no responde', 'Hardware', 'Media', 'Abierto', '2023-10-05 08:20:00', 5, 5, 5);

@@ -15,6 +15,9 @@
                         <li v-if="authed" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/configuraciones">Configuraciones</RouterLink>
                         </li>
+                        <li v-if="authed" class="nav-item margin">
+                            <RouterLink class="nav-link item" to="/incidencias">Incidencias</RouterLink>
+                        </li>
                    </ul>
                 </div>
             </div>

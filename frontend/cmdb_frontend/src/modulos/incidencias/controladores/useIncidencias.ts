@@ -12,6 +12,11 @@ export const useIncidencias = () => {
         console.log(incidencias.value); // Debug
     };
 
+    const traeIncidenciasPorDepartamento = async (departamentoId: number) => {
+        const respuesta = await incidenciasApi.get<Incidencia[]>('/departamento/' + departamentoId);
+        incidencias.value = respuesta.data;
+    };
+
     const traeIncidenciaId = async (id: number) => {
         const respuesta = await incidenciasApi.get<Incidencia[]>('/' + id);
         incidencias.value = respuesta.data;
@@ -46,6 +51,7 @@ export const useIncidencias = () => {
         traeIncidenciaId,
         agregarIncidencia,
         actualizarIncidencia,
-        borrarIncidencia
+        borrarIncidencia,
+        traeIncidenciasPorDepartamento
     };
 };

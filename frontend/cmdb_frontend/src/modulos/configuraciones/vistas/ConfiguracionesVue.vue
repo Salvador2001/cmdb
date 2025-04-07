@@ -10,7 +10,7 @@
             </RouterLink>
         </div>
     </section>
-    <h4 :key="nombreDepartamento">Departamento: {{ nombreDepartamento }}</h4>
+    <h4 :key="nombreDepartamento">Departamento: {{ isAdmin ? "Administrador" : nombreDepartamento }}</h4>
     <div class="table-container">
         <table class="table table-striped">
             <thead>

@@ -28,6 +28,33 @@ export const encuentraIncidencia = async (id: number) => {
     }
 }
 
+export const obtieneIncidenciasPorDepartamento = async (departamentoId: number) => {
+    try {
+        const [results] = await conexion.query(`
+            SELECT 
+                i.id,
+                i.folio,
+                i.descripcion,
+                i.categoria,
+                i.prioridad,
+                i.estatus,
+                i.fecha_creacion,
+                i.autor,
+                i.configuracion,
+                d.nombre AS departamento
+            FROM 
+                Incidencias i
+            JOIN 
+                Departamentos d ON i.departamento = d.id
+            WHERE 
+                d.id = ?;
+        `, [departamentoId]);
+        return results;
+    } catch (err) {
+        return { error: "No se pueden obtener las incidencias de ese departamento" };
+    }
+};
+
 export const agregarIncidencia = async (nueva: IncidenciaNueva) => {
     try {
         const [results] = await conexion.query(
