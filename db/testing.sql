@@ -34,3 +34,21 @@ JOIN
 WHERE 
     d.id = 1;
 select * from `Credenciales` WHERE correo = 'carlos.perez@example.com' AND contrasenia = 'asd';
+
+--------
+
+use cmdb;
+
+UPDATE Incidencias
+SET 
+    folio = 'INC003',
+    descripcion = 'Problema de red en oficina',
+    categoria = 'Red',
+    prioridad = 'Alta',
+    estatus = 'Cerrada',
+    fecha_creacion = '2023-10-03T09:15:00.000Z',
+    autor = 3,
+    configuracion = 3,
+    departamento = 3
+WHERE 
+    id = 3;

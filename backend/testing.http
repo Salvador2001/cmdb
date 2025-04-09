@@ -58,3 +58,13 @@ Content-Type: application/json
 {
     "id": 7
 }
+
+###
+
+PUT http://localhost:3001/api/roles
+Content-Type: application/json
+
+{
+    "id":5,
+    "nombre": "Docente"
+}

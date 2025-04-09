@@ -52,9 +52,9 @@
                             <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-primary">
                                 <RouterLink class="nav-link item" :to="{path: '/incidencias/' + incidencia.id + '/editar'}"><i class="fa fa-pencil"></i></RouterLink>
                             </button>
-                            <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-danger">
+                            <!-- <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-danger">
                                 <RouterLink class="nav-link item" :to="{path: '/incidencias/' + incidencia.id + '/borrar'}"><i class="fa fa-trash"></i></RouterLink>
-                            </button>
+                            </button> -->
                         </div>
                     </td>
                 </tr>
@@ -121,6 +121,9 @@ const { getFechaYHora } = dateHelper();
         const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
         if (usuarios.value.rol == 1){
             isAdmin.value = true
+            await traeIncidencias()
+        }
+        else if(usuarios.value.rol == 3){
             await traeIncidencias()
         }
         else{

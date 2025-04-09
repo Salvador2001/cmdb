@@ -41,7 +41,12 @@
                     </div>
                     <div class="mb-3">
                         Ubicación
-                        <Field name="ubicacion" type="number" class="form-control" v-model="configuracion.ubicacion" />
+                        <Field name="ubicacion" as="select" class="form-control" v-model="configuracion.ubicacion">
+                            <option value="" disabled>Seleccione una ubicación...</option>
+                            <option v-for="(ubicacion, index) in opcionesUbicacion" :key="index" :value="ubicacion.id">
+                                {{ ubicacion.nombre }}
+                            </option>
+                        </Field>
                         <ErrorMessage name="ubicacion" class="errorValidacion" />
                     </div>
                     <div class="mb-3">
@@ -54,12 +59,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useConfiguraciones } from '../controladores/useConfiguraciones';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import type { ConfiguracionAgregar } from '../interfaces/configuraciones-interface';
+import { useUbicacion } from '@/modulos/ubicacion/controladores/useUbicacion';
 
 const { agregarConfiguracion, mensaje } = useConfiguraciones();
+const { traeUbicaciones, ubicaciones } = useUbicacion()
 
 let configuracion = ref<ConfiguracionAgregar>({
     nombre: '',
@@ -70,6 +77,23 @@ let configuracion = ref<ConfiguracionAgregar>({
     serial: '',
     fecha_compra: '',
     rfc: null
+});
+
+interface OpcionUbicacion {
+    id: number;
+    nombre: string;
+}
+
+let opcionesUbicacion: OpcionUbicacion[] = [];
+
+onMounted (async () => {
+    await traeUbicaciones()
+    ubicaciones.value.forEach((ubicacion) => {
+        opcionesUbicacion.push({
+            id: ubicacion.id,
+            nombre: ubicacion.nombre
+        })
+    })
 });
 
 const onTodoBien = async () => {

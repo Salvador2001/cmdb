@@ -80,7 +80,9 @@ import { Field, Form, ErrorMessage } from 'vee-validate';
 import type { IncidenciaAgregar } from '../interfaces/incidencias-interface';
 import { dateHelper } from '@/util/dateHelper';
 import { useConfiguraciones } from '@/modulos/configuraciones/controladores/useConfiguraciones';
-const { traeConfiguracionesPorDepartamento, configuraciones } = useConfiguraciones()
+import { useUbicacion } from '@/modulos/ubicacion/controladores/useUbicacion';
+const { traeConfiguraciones, traeConfiguracionesPorDepartamento, configuraciones } = useConfiguraciones()
+const { traeUbicaciones, ubicaciones } = useUbicacion();
 
 const { agregarIncidencia, mensaje } = useIncidencias();
 const { getFechaYHora } = dateHelper();
@@ -123,8 +125,14 @@ onMounted(async () => {
     // obtener usuario autenticado
     usuario = ref(JSON.parse(localStorage.getItem('usuario') || '{}'));
     console.log(usuario.value.departamento);
-    await traeConfiguracionesPorDepartamento(usuario.value.departamento);
-    console.log(configuraciones.value);
+    if(usuario.value.rol == 1){
+        await traeConfiguraciones()
+    }
+    else{
+        await traeConfiguracionesPorDepartamento(usuario.value.departamento);
+        console.log(configuraciones.value);
+    }
+    
 }); 
 
 const onTodoBien = async () => {

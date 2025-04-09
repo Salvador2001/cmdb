@@ -52,9 +52,9 @@
                             <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-primary">
                                 <RouterLink class="nav-link item" :to="{path: '/configuraciones/' + configuracion.id + '/editar'}"><i class="fa fa-pencil"></i></RouterLink>
                             </button>
-                            <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-danger">
+                            <!-- <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-danger">
                                 <RouterLink class="nav-link item" :to="{path: '/configuraciones/' + configuracion.id + '/borrar'}"><i class="fa fa-trash"></i></RouterLink>
-                            </button>
+                            </button> -->
                         </div>
                     </td>
                 </tr>
@@ -158,6 +158,9 @@ const { getFecha } = dateHelper();
             console.log("entró y ahora sale rol")
             console.log(usuarios.value.rol)
             isAdmin.value = true
+            await traeConfiguraciones()
+        }
+        else if(usuarios.value.rol == 3){
             await traeConfiguraciones()
         }
         else{

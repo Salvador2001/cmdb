@@ -5,6 +5,7 @@ import ConfiguracionesBorrarVue from '@/modulos/configuraciones/vistas/Configura
 import ConfiguracionesEditarVue from '@/modulos/configuraciones/vistas/ConfiguracionesEditarVue.vue'
 import ConfiguracionesVue from '@/modulos/configuraciones/vistas/ConfiguracionesVue.vue'
 import IncidenciasAgregarVue from '@/modulos/incidencias/vistas/IncidenciasAgregarVue.vue'
+import IncidenciasEditarVue from '@/modulos/incidencias/vistas/IncidenciasEditarVue.vue'
 import IncidenciasVue from '@/modulos/incidencias/vistas/IncidenciasVue.vue'
 import PersonalAgregarVue from '@/modulos/personal/vistas/PersonalAgregarVue.vue'
 import PersonalBorrarVue from '@/modulos/personal/vistas/PersonalBorrarVue.vue'
@@ -66,6 +67,11 @@ const router = createRouter({
       path: '/incidencias/agregar',
       name: 'incidenciasagregar',
       component: IncidenciasAgregarVue,
+    },
+    {
+      path: '/incidencias/:id/editar',
+      name: 'incidenciaseditar',
+      component: IncidenciasEditarVue,
     },
     {
       path: '/personal',
