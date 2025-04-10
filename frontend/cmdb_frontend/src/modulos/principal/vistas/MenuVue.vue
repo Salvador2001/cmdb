@@ -1,7 +1,7 @@
 <!-- vbase-3-ts-setup para obtener template con vue snippets -->
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="/bienvenida">TEC CMDB</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,9 +25,10 @@
                 </div>
             </div>
         </div>
-        <div class="auth">
-            <div v-if="authed">
-                <button class="btn btn-outline-light" @click="logout"><i class="fa fa-user-times"></i></button>
+        <div class="auth container-fluid">
+            <div class="auth" v-if="authed">
+                <p class="text-light me-2">Bienvenido(a), {{ nombreUsuario }}</p>
+                <button class="btn btn-outline-light" @click="logout" title="Salir"><i class="fa fa-user-times"></i></button>
             </div>
             <div v-else>
                 <RouterLink class="btn btn-outline-light" to="/login"><i class="fa fa-user-plus"></i></RouterLink>
@@ -44,11 +45,14 @@ import { useRouter } from 'vue-router';
 
     const router = useRouter()
     const authed = ref(false);
+    let nombreUsuario = ref('');
 
     onMounted(() => {
         //Verificar si ya hay un usuario autenticado
         if (localStorage.getItem('usuario') && localStorage.getItem('credencial')) {
             authed.value = true
+            const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
+            nombreUsuario.value = usuarios.value.nombre
         }
     })
 
@@ -61,5 +65,13 @@ import { useRouter } from 'vue-router';
 </script>
 
 <style scoped>
-
+.auth{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+}
+.auth p{
+    margin: 0;
+}
 </style>
