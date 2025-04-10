@@ -1,5 +1,35 @@
 # Instrucciones para creación de proyecto
 
+## MySQL
+
+**Crear contenedor de la BD en Docker**
+
+Para correr la imagen de mysql en docker, usar `docker run -d -p 3306:3306 --name mysql-db -e MYSQL_ROOT_PASSWORD=prueba123 mysql`.
+(Nombre y contraseña pueden ser las que sea).
+
+* `-d`: Deatached Mode es la forma en que indicamos que corra en background.
+* `-p` : puerto, el contenedor corre en el puerto 3306 pero hacemos un bind para que lo escuchemos en Host el puerto 33061.
+* `–name` : para no tener que hacer referencia al hash le asignamos un nombre.
+* `-e` : environment le asignamos la contraseña.
+
+Para conectarse al contenedor en modo interactivo, usar `docker exec -it mysql-db mysql -p`.
+
+* `exec`: indicamos que vamos a pasar un comando.
+* `-it`: Modo interactivo.
+* `mysql -p`: es el comando para entrar a la consola de mysql con el usuario root(si has trabajado con mysql en consola es lo mismo).
+
+Para iniciar la imagen de mysql: `docker start mysql-db`.
+
+**Realizar un backup (Caso: Codespaces)**
+
+`wget https://dev.mysql.com/get/mysql-apt-config_0.8.26-1_all.deb` - Descargar paquete.<br>
+`sudo dpkg -i mysql-apt-config_0.8.26-1_all.deb` - Instalar paquete, escoger `Tools & Connectors`.<br>
+`sudo apt update` - Actualizar repositorios.<br>
+`sudo apt install mysql-client` - Instalar cliente de mysql.<br>
+`mysqldump --version` - Verificar instalación.<br>
+`mysqldump -h 127.0.0.1 -P 3306 -u root -p cmdb > backup.sql` - Comando para realizar backup en la carpeta actual
+conectándose a la bd de una instancia de docker desde red (pedirá contraseña).<br>
+
 ## Backend
 
 **Inicializando el proyecto**
