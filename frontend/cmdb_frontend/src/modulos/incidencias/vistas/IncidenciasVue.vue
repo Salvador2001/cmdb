@@ -91,7 +91,13 @@
                     <td>{{ incidencia.folio }}</td>
                     <td>{{ incidencia.descripcion }}</td>
                     <td>{{ incidencia.categoria }}</td>
-                    <td>{{ incidencia.prioridad }}</td>
+                    <td :class="{
+                    'table-danger': incidencia.prioridad === 'Alta',
+                    'table-warning': incidencia.prioridad === 'Media',
+                    'table-success': incidencia.prioridad === 'Baja'
+                    }">
+                    {{ incidencia.prioridad }}
+                    </td>
                     <td>{{ incidencia.estatus }}</td>
                     <td>{{ incidencia.fecha_creacion }}</td>
                     <td>{{ incidencia.configuracion }}</td>
