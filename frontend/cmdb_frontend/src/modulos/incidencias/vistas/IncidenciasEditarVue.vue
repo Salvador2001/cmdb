@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5" v-if="incidencias[0]">
-        <div class="card">
+        <div class="card mb-5">
             <div class="card-header">
                 <h4>Editar incidencia</h4>
             </div>
@@ -56,8 +56,18 @@
                         </option>
                     </select>
                 </div>
+                <div v-if="tieneServicio" class="mb-3">
+                    Asignar a técnico
+                    <select class="form-control" v-model="servicios[0].responsable">
+                        <option value="" disabled>Seleccione un técnico...</option>
+                        <option v-for="(usuario, index) in usuarios" :key="index" :value="usuario.id">
+                            {{ usuario.nombre }}
+                        </option>
+                    </select>
+                </div>
                 <div class="mb-3">
-                    <button class="btn btn-primary" @click="actualizarIncidencia(incidencias[0])">Actualizar</button>
+                    <button class="btn btn-primary" @click="onActualizar(incidencias[0])">Actualizar</button>
+                    <button :class="{ disabled: tieneServicio }" class="btn btn-outline-primary ms-2" @click="crearServicio(incidencias[0].id)">Iniciar servicio</button>
                 </div>
             </div>
         </div>
@@ -70,14 +80,21 @@ import { useRoute } from 'vue-router';
 import { useIncidencias } from '../controladores/useIncidencias';
 import { useConfiguraciones } from '@/modulos/configuraciones/controladores/useConfiguraciones';
 import { dateHelper } from '@/util/dateHelper';
+import type { Incidencia } from '../interfaces/incidencias-interface';
+import { useServicios } from '@/modulos/servicios/controladores/useServicios';
+import { useUsuarios } from '@/modulos/usuarios/controladores/useUsuarios';
+import type { ServicioAgregar } from '@/modulos/servicios/interfaces/servicios-interface';
 
 const { traeIncidenciaId, actualizarIncidencia, mensaje, incidencias } = useIncidencias();
 const { traeConfiguraciones, configuraciones } = useConfiguraciones();
+const { agregarServicio, traeServicioId, actualizarServicio, traeServicioIncidencia, servicios, mensaje: mensajeServicio } = useServicios();
+const { traeUsuarios, usuarios } = useUsuarios();
 
 const { getFechaYHora } = dateHelper();
 
 const route = useRoute();
 let idIncidencia = 0;
+let tieneServicio = ref(false);
 
 const categorias = [
     { id: 1, nombre: 'Hardware' },
@@ -94,8 +111,10 @@ const prioridades = [
 
 const estatusList = [
     { id: 1, nombre: 'Abierta' },
-    { id: 2, nombre: 'Cerrada' },
-    { id: 3, nombre: 'En Proceso' }
+    { id: 2, nombre: 'En Proceso' },
+    { id: 3, nombre: 'Terminada' },
+    { id: 4, nombre: 'Liberada' },
+    { id: 5, nombre: 'Rechazada' }
 ];
 
 onMounted(async () => {
@@ -104,7 +123,42 @@ onMounted(async () => {
     await traeConfiguraciones();
     incidencias.value[0].fecha_creacion = getFechaYHora(incidencias.value[0].fecha_creacion);
     console.log(incidencias);
+
+    await traeServicioIncidencia(idIncidencia);
+    if (servicios.value[0]) {
+        tieneServicio.value = true;
+    }
+    await traeUsuarios();
+    usuarios.value = usuarios.value.filter((usuario) => usuario.rol == 3);
+    console.log("tiene servicio?")
+    console.log(tieneServicio.value)
 });
+
+const crearServicio = async (incidencia: number) => {
+    console.log("servicio")
+    console.log(servicios)
+    const nuevoServicio: ServicioAgregar = {
+        tipo: incidencias.value[0].categoria,
+        incidencia: incidencia,
+        responsable: null
+    };
+    // servicios.value[0].tipo = incidencias.value[0].categoria;
+    // servicios.value[0].id = incidencia;
+    await agregarServicio(nuevoServicio);
+    console.log("mensaje: "+mensajeServicio.value)
+    if (mensajeServicio.value == 2) {
+        tieneServicio.value = true;
+        await traeServicioIncidencia(idIncidencia);
+    }
+};
+
+
+const onActualizar = async (incidencia: Incidencia) => {
+    // mensaje.value = 0;
+    await actualizarIncidencia(incidencia);
+    await actualizarServicio(servicios.value[0]);
+};
+
 </script>
 
 <style scoped>

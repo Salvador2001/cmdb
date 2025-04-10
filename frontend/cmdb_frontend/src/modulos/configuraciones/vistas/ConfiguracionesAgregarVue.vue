@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5">
-        <div class="card">
+        <div class="card mb-5">
             <div class="card-header">
                 <h4>Agregar configuración</h4>
             </div>

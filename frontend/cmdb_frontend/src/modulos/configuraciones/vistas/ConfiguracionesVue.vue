@@ -10,7 +10,7 @@
             </RouterLink>
         </div>
     </section>
-    <h4 :key="nombreDepartamento">Departamento: {{ isAdmin ? "Administrador" : nombreDepartamento }}</h4>
+    <h5 :key="nombreDepartamento">Departamento: {{ isAdmin ? "Administrador" : nombreDepartamento }}</h5>
     <div class="table-container">
         <table class="table table-striped">
             <thead>
@@ -87,7 +87,7 @@
             </tbody>
         </table>
     </div>
-    <div v-if="vista == 'componentes'">
+    <div class="mb-5" v-if="vista == 'componentes'">
     <section class="section-componentes">
         <h4>Componentes</h4>
     </section>
@@ -235,5 +235,8 @@ const { getFecha } = dateHelper();
     }
     .centrado {
         text-align: center;
+    }
+    th{
+        font-weight: bold;
     }
 </style>

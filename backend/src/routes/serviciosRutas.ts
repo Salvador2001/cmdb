@@ -13,10 +13,20 @@ router.get('/:id', async (req: Request, res: Response) => {
     res.send(servicio);
 });
 
+router.get('/incidencia/:id', async (req: Request, res: Response) => {
+    let servicio = await serviciosServices.encuentraServicioPorIncidencia(Number(req.params.id));
+    res.send(servicio);
+});
+
+router.get('/responsable/:id', async (req: Request, res: Response) => {
+    let servicio = await serviciosServices.encuentraServicioPorResponsable(Number(req.params.id));
+    res.send(servicio);
+});
+
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { tipo, incidencia } = req.body;
-        const nuevo = await serviciosServices.agregarServicio({ tipo, incidencia });
+        const { tipo, incidencia, responsable } = req.body;
+        const nuevo = await serviciosServices.agregarServicio({ tipo, incidencia, responsable });
         res.send(nuevo);
     } catch (err) {
         res.send('No se puede agregar el servicio');
@@ -25,8 +35,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, tipo, incidencia } = req.body;
-        const modificado = await serviciosServices.modificarServicio({ id, tipo, incidencia });
+        const { id, tipo, incidencia, responsable } = req.body;
+        const modificado = await serviciosServices.modificarServicio({ id, tipo, incidencia, responsable });
         res.send(modificado);
     } catch (e) {
         res.status(400).send("Error en los datos");

@@ -28,11 +28,29 @@ export const encuentraServicio = async (id: number) => {
     }
 }
 
+export const encuentraServicioPorIncidencia = async (incidencia: number) => {
+    try {
+        const [results] = await conexion.query('SELECT * FROM Servicios WHERE incidencia = ?', [incidencia]);
+        return results;
+    } catch (err) {
+        return { error: "No se encuentra el servicio con esa incidencia" };
+    }
+}
+
+export const encuentraServicioPorResponsable = async (responsable: number) => {
+    try {
+        const [results] = await conexion.query('SELECT * FROM Servicios WHERE responsable = ?', [responsable]);
+        return results;
+    } catch (err) {
+        return { error: "No se encuentra el servicio con ese responsable" };
+    }
+}
+
 export const agregarServicio = async (nuevo: ServicioNuevo) => {
     try {
         const [results] = await conexion.query(
-            'INSERT INTO Servicios(tipo, incidencia) VALUES (?, ?)',
-            [nuevo.tipo, nuevo.incidencia]
+            'INSERT INTO Servicios(tipo, incidencia, responsable) VALUES (?, ?, ?)',
+            [nuevo.tipo, nuevo.incidencia, nuevo.responsable]
         );
         return results;
     } catch (err) {
@@ -43,8 +61,8 @@ export const agregarServicio = async (nuevo: ServicioNuevo) => {
 export const modificarServicio = async (modificado: Servicio) => {
     try {
         const [results] = await conexion.query(
-            'UPDATE Servicios SET tipo=?, incidencia=? WHERE id=?',
-            [modificado.tipo, modificado.incidencia, modificado.id]
+            'UPDATE Servicios SET tipo=?, incidencia=?, responsable=? WHERE id=?',
+            [modificado.tipo, modificado.incidencia, modificado.responsable, modificado.id]
         );
         return results;
     } catch (err) {

@@ -213,3 +213,11 @@ ADD FOREIGN KEY (rfc) REFERENCES SolicitudesCambio(id);
 
 ALTER TABLE SolicitudesCambio
 ADD COLUMN folio VARCHAR(8) CHARACTER SET utf8mb4 UNIQUE NOT NULL;
+
+-- Descartar tabla de ServiciosAsignados
+
+--DROP TABLE ServiciosAsignados;
+
+ALTER TABLE Servicios
+ADD COLUMN responsable INT UNSIGNED DEFAULT NULL,
+ADD FOREIGN KEY (responsable) REFERENCES Usuarios(id);
