@@ -1,9 +1,10 @@
 import { ref } from "vue";
-import type { SolicitudCambio, SolicitudCambioAgregar } from "../interfaces/solicitudesCambio-interface";
+import type { SolicitudCambio, SolicitudCambioAgregar, SolicitudCambioVista } from "../interfaces/solicitudesCambio-interface";
 import solicitudesCambioApi from "../api/solicitudesCambioAPI";
 
 export const useSolicitudesCambio = () => {
     const solicitudesCambio = ref<SolicitudCambio[]>([]);
+    const solicitudesCambioVista = ref<SolicitudCambioVista[]>([]);
     let mensaje = ref(0);
 
     const traeSolicitudesCambio = async () => {
@@ -12,8 +13,13 @@ export const useSolicitudesCambio = () => {
         console.log(solicitudesCambio.value); // Debug
     };
 
+    const traeSolicitudesCambioVista = async () => {
+        const respuesta = await solicitudesCambioApi.get<SolicitudCambioVista[]>('/vista-tabla');
+        solicitudesCambioVista.value = respuesta.data;
+    };
+
     const traeSolicitudCambioId = async (id: number) => {
-        const respuesta = await solicitudesCambioApi.get<SolicitudCambio[]>('/' + id);
+        const respuesta = await solicitudesCambioApi.get<SolicitudCambio[]>('/rfc/' + id);
         solicitudesCambio.value = respuesta.data;
     };
 
@@ -41,6 +47,8 @@ export const useSolicitudesCambio = () => {
 
     return {
         solicitudesCambio,
+        solicitudesCambioVista,
+        traeSolicitudesCambioVista,
         mensaje,
         traeSolicitudesCambio,
         traeSolicitudCambioId,

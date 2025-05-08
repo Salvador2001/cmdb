@@ -14,15 +14,15 @@
                 </div>
                 <div class="mb-3">
                     Folio
-                    <input type="text" class="form-control" v-model="incidencias[0].folio">
+                    <input type="text" :disabled="!isAdmin || !isTecnico" class="form-control" v-model="incidencias[0].folio">
                 </div>
                 <div class="mb-3">
                     Descripción
-                    <textarea class="form-control" v-model="incidencias[0].descripcion"></textarea>
+                    <textarea class="form-control" :disabled="tieneServicio && (!isAdmin && !isTecnico)" v-model="incidencias[0].descripcion"></textarea>
                 </div>
                 <div class="mb-3">
                     Categoría
-                    <select class="form-control" v-model="incidencias[0].categoria">
+                    <select class="form-control" :disabled="tieneServicio && (!isAdmin && !isTecnico)" v-model="incidencias[0].categoria">
                         <option value="" disabled>Seleccione una categoría...</option>
                         <option v-for="(categoria, index) in categorias" :key="index" :value="categoria.nombre">
                             {{ categoria.nombre }}
@@ -31,7 +31,7 @@
                 </div>
                 <div class="mb-3">
                     Prioridad
-                    <select class="form-control" v-model="incidencias[0].prioridad">
+                    <select class="form-control" :disabled="!isAdmin || !isTecnico" v-model="incidencias[0].prioridad">
                         <option value="" disabled>Seleccione una prioridad...</option>
                         <option v-for="(prioridad, index) in prioridades" :key="index" :value="prioridad.nombre">
                             {{ prioridad.nombre }}
@@ -40,7 +40,7 @@
                 </div>
                 <div class="mb-3">
                     Estatus
-                    <select class="form-control" v-model="incidencias[0].estatus">
+                    <select class="form-control" :disabled="!isAdmin || !isTecnico" v-model="incidencias[0].estatus">
                         <option value="" disabled>Seleccione un estatus...</option>
                         <option v-for="(estatus, index) in estatusList" :key="index" :value="estatus.nombre">
                             {{ estatus.nombre }}
@@ -49,7 +49,7 @@
                 </div>
                 <div class="mb-3">
                     Configuración
-                    <select class="form-control" v-model="incidencias[0].configuracion">
+                    <select class="form-control" :disabled="tieneServicio && (!isAdmin || !isTecnico)" v-model="incidencias[0].configuracion">
                         <option value="" disabled>Seleccione una configuración...</option>
                         <option v-for="(configuracion, index) in configuraciones" :key="index" :value="configuracion.id">
                             {{ configuracion.serial + " - " + configuracion.nombre }}
@@ -58,16 +58,20 @@
                 </div>
                 <div v-if="tieneServicio" class="mb-3">
                     Asignar a técnico
-                    <select class="form-control" v-model="servicios[0].responsable">
+                    <select class="form-control" :disabled="!isAdmin || !isTecnico" v-model="servicios[0].responsable">
                         <option value="" disabled>Seleccione un técnico...</option>
                         <option v-for="(usuario, index) in usuarios" :key="index" :value="usuario.id">
                             {{ usuario.nombre }}
                         </option>
                     </select>
                 </div>
+                <div v-if="tieneServicio" class="mb-3">
+                    Diagnóstico
+                    <textarea class="form-control" :disabled="!isAdmin && !isTecnico" v-model="servicios[0].diagnostico"></textarea>
+                </div>
                 <div class="mb-3">
-                    <button class="btn btn-primary" @click="onActualizar(incidencias[0])">Actualizar</button>
-                    <button :class="{ disabled: tieneServicio }" class="btn btn-outline-primary ms-2" @click="crearServicio(incidencias[0].id)">Iniciar servicio</button>
+                    <button :class="{ disabled: tieneServicio && (!isAdmin && !isTecnico) }" class="btn btn-primary" @click="onActualizar(incidencias[0])">Actualizar</button>
+                    <button :class="{ disabled: tieneServicio || (!isAdmin || !isTecnico) }" class="btn btn-outline-primary ms-2" @click="crearServicio(incidencias[0].id)">Iniciar servicio</button>
                 </div>
             </div>
         </div>
@@ -84,17 +88,20 @@ import type { Incidencia } from '../interfaces/incidencias-interface';
 import { useServicios } from '@/modulos/servicios/controladores/useServicios';
 import { useUsuarios } from '@/modulos/usuarios/controladores/useUsuarios';
 import type { ServicioAgregar } from '@/modulos/servicios/interfaces/servicios-interface';
+import type { Usuario } from '@/modulos/usuarios/interfaces/usuarios-interface';
 
 const { traeIncidenciaId, actualizarIncidencia, mensaje, incidencias } = useIncidencias();
 const { traeConfiguraciones, configuraciones } = useConfiguraciones();
 const { agregarServicio, traeServicioId, actualizarServicio, traeServicioIncidencia, servicios, mensaje: mensajeServicio } = useServicios();
-const { traeUsuarios, usuarios } = useUsuarios();
+const { traeUsuarios, usuarios, usuarios: usuarioAuth } = useUsuarios();
 
 const { getFechaYHora } = dateHelper();
 
 const route = useRoute();
 let idIncidencia = 0;
 let tieneServicio = ref(false);
+let isAdmin = ref(false);
+let isTecnico = ref(false);
 
 const categorias = [
     { id: 1, nombre: 'Hardware' },
@@ -118,6 +125,13 @@ const estatusList = [
 ];
 
 onMounted(async () => {
+    const usuarioAuth = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
+    if (usuarioAuth.value.rol == 1){
+        isAdmin.value = true
+        isTecnico.value = true
+    } else if (usuarioAuth.value.rol == 3){
+        isTecnico.value = true
+    }
     idIncidencia = Number(route.params.id);
     await traeIncidenciaId(idIncidencia);
     await traeConfiguraciones();
@@ -129,9 +143,11 @@ onMounted(async () => {
         tieneServicio.value = true;
     }
     await traeUsuarios();
-    usuarios.value = usuarios.value.filter((usuario) => usuario.rol == 3);
+    usuarios.value = usuarios.value.filter((usuario: Usuario) => usuario.rol == 3);
     console.log("tiene servicio?")
     console.log(tieneServicio.value)
+    console.log("es admin?"+ isAdmin.value)
+    console.log("es tecnico?"+ isTecnico.value)
 });
 
 const crearServicio = async (incidencia: number) => {
@@ -140,7 +156,8 @@ const crearServicio = async (incidencia: number) => {
     const nuevoServicio: ServicioAgregar = {
         tipo: incidencias.value[0].categoria,
         incidencia: incidencia,
-        responsable: null
+        responsable: null,
+        diagnostico: null
     };
     // servicios.value[0].tipo = incidencias.value[0].categoria;
     // servicios.value[0].id = incidencia;

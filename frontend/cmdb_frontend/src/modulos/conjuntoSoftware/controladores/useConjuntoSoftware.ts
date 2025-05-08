@@ -1,15 +1,22 @@
 import { ref } from "vue"
 import type { ConjuntoSoftware, ConjuntoSoftwareAgregar } from "../interfaces/conjuntoSoftware-interface"
+import type { Software } from "../../software/interfaces/software-interface"
 import conjuntoSoftwareApi from "../api/conjuntoSoftwareAPI"
 
 export const useConjuntoSoftware = () => {
     const conjuntoSoftware = ref<ConjuntoSoftware[]>([])
+    const listaSoftware = ref<Software[]>([])
     let mensaje = ref(0);
 
     const traeConjuntoSoftware = async () => {
         const respuesta = await conjuntoSoftwareApi.get<ConjuntoSoftware[]>('/')
         conjuntoSoftware.value = respuesta.data
         console.log(conjuntoSoftware.value) //debug
+    }
+
+    const traeListaConjuntoSoftware = async (configuracion:number) => {
+        const respuesta = await conjuntoSoftwareApi.get<Software[]>('/'+configuracion)
+        listaSoftware.value = respuesta.data
     }
 
     const traeConjuntoSoftwareId = async (id:number) => {
@@ -43,6 +50,8 @@ export const useConjuntoSoftware = () => {
         conjuntoSoftware,
         mensaje,
         traeConjuntoSoftware,
+        listaSoftware,
+        traeListaConjuntoSoftware,
         traeConjuntoSoftwareId,
         agregarConjuntoSoftware,
         actualizarConjuntoSoftware,

@@ -4,7 +4,8 @@ export interface SolicitudCambio {
     estatus: string;
     requiere_comite: boolean;
     servicio: number;
-    folio: string;
+    descripcion: string;
+    presupuesto: number;
 }
 
 export interface SolicitudCambioNueva {
@@ -12,5 +13,18 @@ export interface SolicitudCambioNueva {
     estatus: string;
     requiere_comite: boolean;
     servicio: number;
-    folio: string;
+    descripcion: string;
+    presupuesto: number;
+}
+
+export interface SolicitudCambioVista {
+    id: number;
+    incidencia: string;
+    descripcion: string;
+    estatus: string;
+    presupuesto: number;
+    configuracion: string;
+    fecha: string;
+    requiere_comite: boolean;
+    ubicacion: string;
 }

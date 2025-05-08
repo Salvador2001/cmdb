@@ -68,3 +68,85 @@ Content-Type: application/json
     "id":5,
     "nombre": "Docente"
 }
+
+###
+
+POST http://localhost:3001/api/conjunto-software
+Content-Type: application/json
+
+{
+    "software": 4,
+    "configuracion": 10
+}
+
+###
+
+PUT http://localhost:3001/api/roles
+Content-Type: application/json
+
+{
+    "id": 3,
+    "nombre": "Técnico de Hardware"
+}
+
+###
+
+POST http://localhost:3001/api/roles
+Content-Type: application/json
+
+{
+    "nombre": "Técnico de Software"
+}
+
+###
+
+POST http://localhost:3001/api/roles
+Content-Type: application/json
+
+{
+    "nombre": "Técnico de Redes"
+}
+
+###
+
+POST http://localhost:3001/api/roles
+Content-Type: application/json
+
+{
+    "nombre": "Técnico asistente"
+}
+
+###
+
+POST http://localhost:3001/api/solicitudes-cambio
+Content-Type: application/json
+
+{
+    "fecha": "2025-05-05",
+    "estatus": "Pendiente",
+    "requiere_comite": true,
+    "servicio": 5,
+    "descripcion": "test",
+    "presupuesto": 720.50
+}
+
+###
+
+PUT http://localhost:3001/api/solicitudes-cambio
+Content-Type: application/json
+
+{
+    "id": 1,
+    "fecha": "2025-05-05",
+    "estatus": "Pendiente",
+    "requiere_comite": true,
+    "servicio": 5,
+    "descripcion": "Se requiere cambiar la pantalla por una nueva",
+    "presupuesto": 720.50
+}
+
+###
+
+GET http://localhost:3001/api/solicitudes-cambio/1
+
+###

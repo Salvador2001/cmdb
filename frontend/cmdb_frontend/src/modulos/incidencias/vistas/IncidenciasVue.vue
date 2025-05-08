@@ -104,6 +104,9 @@
                     <td>{{ incidencia.ubicacion }}</td>
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-sm btn-outline-primary">
+                                <RouterLink class="nav-link item" :to="{path: '/incidencias/' + incidencia.id + '/editar'}"><i class="fa fa-pencil"></i></RouterLink>
+                            </button>
                             <!-- <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
                                 <i class="fa fa-microchip"></i>
                             </button> -->

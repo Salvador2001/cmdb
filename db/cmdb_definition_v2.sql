@@ -221,3 +221,17 @@ ADD COLUMN folio VARCHAR(8) CHARACTER SET utf8mb4 UNIQUE NOT NULL;
 ALTER TABLE Servicios
 ADD COLUMN responsable INT UNSIGNED DEFAULT NULL,
 ADD FOREIGN KEY (responsable) REFERENCES Usuarios(id);
+
+ALTER TABLE Servicios
+ADD COLUMN diagnostico TEXT CHARACTER SET utf8mb4;
+
+-- Modificaciones
+
+ALTER TABLE SolicitudesCambio
+DROP COLUMN folio;
+
+ALTER TABLE SolicitudesCambio
+ADD COLUMN descripcion TEXT CHARACTER SET utf8mb4;
+
+ALTER TABLE SolicitudesCambio
+ADD COLUMN presupuesto DECIMAL(10,2) DEFAULT NULL;

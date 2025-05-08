@@ -19,6 +19,30 @@ export const obtieneConjuntoSoftware = async () => {
     }
 }
 
+export const obtieneListaConjuntoSoftware = async (configuracion: number) => {
+    try {
+        const [results] = await conexion.query(`
+            SELECT 
+                s.id AS id,
+                s.nombre AS nombre,
+                s.desarrollador AS desarrollador,
+                s.tipo AS tipo,
+                s.licencia AS licencia,
+                s.version AS version,
+                s.descripcion AS descripcion
+            FROM 
+                ConjuntoSoftware cs
+            JOIN 
+                Software s ON cs.software = s.id
+            WHERE 
+                cs.configuracion = ?;
+        `, [configuracion]);
+        return results;
+    } catch (err) {
+        return { error: "No se pueden obtener la lista de software para esa configuración" };
+    }
+}
+
 export const encuentraConjuntoSoftware = async (configuracion: number, software: number) => {
     try {
         const [results] = await conexion.query('SELECT * FROM ConjuntoSoftware WHERE configuracion = ? AND software = ? LIMIT 1', [configuracion, software]);

@@ -49,8 +49,8 @@ export const encuentraServicioPorResponsable = async (responsable: number) => {
 export const agregarServicio = async (nuevo: ServicioNuevo) => {
     try {
         const [results] = await conexion.query(
-            'INSERT INTO Servicios(tipo, incidencia, responsable) VALUES (?, ?, ?)',
-            [nuevo.tipo, nuevo.incidencia, nuevo.responsable]
+            'INSERT INTO Servicios(tipo, incidencia, responsable, diagnostico) VALUES (?, ?, ?, ?)',
+            [nuevo.tipo, nuevo.incidencia, nuevo.responsable, nuevo.diagnostico]
         );
         return results;
     } catch (err) {
@@ -61,8 +61,8 @@ export const agregarServicio = async (nuevo: ServicioNuevo) => {
 export const modificarServicio = async (modificado: Servicio) => {
     try {
         const [results] = await conexion.query(
-            'UPDATE Servicios SET tipo=?, incidencia=?, responsable=? WHERE id=?',
-            [modificado.tipo, modificado.incidencia, modificado.responsable, modificado.id]
+            'UPDATE Servicios SET tipo=?, incidencia=?, responsable=?, diagnostico=? WHERE id=?',
+            [modificado.tipo, modificado.incidencia, modificado.responsable, modificado.diagnostico, modificado.id]
         );
         return results;
     } catch (err) {

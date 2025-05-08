@@ -46,7 +46,7 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
                                 <i class="fa fa-microchip"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-info">
+                            <button type="button" class="btn btn-sm btn-outline-info" @click="verSoftware(configuracion.id)">
                                 <i class="fa fa-cogs"></i>
                             </button>
                             <button v-if="isAdmin == true" type="button" class="btn btn-sm btn-outline-primary">
@@ -78,7 +78,7 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
                                 <i class="fa fa-microchip"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-info">
+                            <button type="button" class="btn btn-sm btn-outline-info" @click="verSoftware(configuracion.id)">
                                 <i class="fa fa-cogs"></i>
                             </button>
                         </div>
@@ -106,7 +106,7 @@
             </thead>
             <tbody>
                 <tr v-if="componentes.length === 0">
-                    <td class="centrado" colspan="6">Sin componentes registrados</td>
+                    <td class="centrado" colspan="7">Sin componentes registrados</td>
                 </tr>
                 <tr v-else v-for="(componentes, index) in componentes" :key="index">
                     <td>{{ componentes.id }}</td>
@@ -115,6 +115,45 @@
                     <td>{{ componentes.tipo }}</td>
                     <td>{{ componentes.estatus }}</td>
                     <td>{{ componentes.rfc }}</td>
+                    <td class="centrado">
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <div class="mb-5" v-if="vista == 'software'">
+    <section class="section-componentes">
+        <h4>Software</h4>
+    </section>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Desarrollador</th>
+                    <th>Tipo</th>
+                    <th>Licencia</th>
+                    <th>Versión</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="listaSoftware.length === 0">
+                    <td class="centrado" colspan="7">Sin software registrado</td>
+                </tr>
+                <tr v-else v-for="(software, index) in listaSoftware" :key="index">
+                    <td>{{ software.id }}</td>
+                    <td>{{ software.nombre }}</td>
+                    <td>{{ software.desarrollador }}</td>
+                    <td>{{ software.tipo }}</td>
+                    <td>{{ software.licencia }}</td>
+                    <td>{{ software.version }}</td>
+                    <td>{{ software.descripcion }}</td>
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             
@@ -136,10 +175,12 @@ import { useDepartamentos } from '@/modulos/departamentos/controladores/useDepar
 import { dateHelper } from '@/util/dateHelper'
 import { useUbicacion } from '@/modulos/ubicacion/controladores/useUbicacion'
 import type { ConfiguracionVista } from '../interfaces/configuraciones-interface'
+import { useConjuntoSoftware } from '@/modulos/conjuntoSoftware/controladores/useConjuntoSoftware'
 const { traeConfiguraciones, traeConfiguracionesPorDepartamento, configuraciones } = useConfiguraciones()
 const { traeComponenteId, componentes } = useComponentes()
 const { traeDepartamentoId, departamentos } = useDepartamentos()
 const { traeUbicacionId, ubicaciones } = useUbicacion()
+const { traeListaConjuntoSoftware, listaSoftware } = useConjuntoSoftware()
 //const { usuarios } = useUsuarios()
 const { getFecha } = dateHelper();
 
@@ -204,7 +245,7 @@ const { getFecha } = dateHelper();
     //  TODO: Implementar vista de software, requiere cambios en la api del backend
     const verSoftware = async (id: number) => {
         vista.value = 'software'
-        await traeComponenteId(id)
+        await traeListaConjuntoSoftware(id)
     }
 
     // const getNombreUbicacion = async (id: number) => {

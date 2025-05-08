@@ -57,6 +57,37 @@ export const encuentraConfiguracion = async (id: number) => {
     }
 }
 
+export const encuentraConfiguracionPorRFC = async (rfc: string) => {
+    try {
+        const [results] = await conexion.query(`
+            SELECT 
+                c.id AS id,
+                c.serial AS serial,
+                c.nombre AS nombre,
+                c.tipo AS tipo,
+                c.fabricante AS fabricante,
+                c.estatus AS estatus,
+                c.fecha_compra AS fecha_compra,
+                c.rfc AS rfc,
+                u.id AS ubicacion
+            FROM 
+                SolicitudesCambio sc
+            JOIN 
+                Servicios s ON sc.servicio = s.id
+            JOIN 
+                Incidencias i ON s.incidencia = i.id
+            JOIN 
+                Configuraciones c ON i.configuracion = c.id
+            JOIN 
+                Ubicacion u ON c.ubicacion = u.id
+            WHERE sc.id = ?;
+        `, [rfc]);
+        return results;
+    } catch (err) {
+        return { error: "No se encuentra esa configuración por tal RFC" };
+    }
+}
+
 export const agregarConfiguracion = async (nueva: ConfiguracionNueva) => {
     try {
         const [results] = await conexion.query('INSERT INTO Configuraciones(nombre, fabricante, tipo, estatus, ubicacion, serial, fecha_compra, rfc) values (?,?,?,?,?,?,?,?)', [nueva.nombre, nueva.fabricante, nueva.tipo, nueva.estatus, nueva.ubicacion, nueva.serial, nueva.fecha_compra, nueva.rfc]);

@@ -18,8 +18,8 @@
                         <li v-if="authed" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/incidencias">Incidencias</RouterLink>
                         </li>
-                        <li v-if="authed" class="nav-item margin">
-                            <RouterLink class="nav-link item" to="/solicitudesCambio">RFCs</RouterLink>
+                        <li v-if="authed && isAdmin" class="nav-item margin">
+                            <RouterLink class="nav-link item" to="/solicitudes-cambio">RFCs</RouterLink>
                         </li>
                    </ul>
                 </div>
@@ -46,6 +46,7 @@ import { useRouter } from 'vue-router';
     const router = useRouter()
     const authed = ref(false);
     let nombreUsuario = ref('');
+    let isAdmin = ref(false);
 
     onMounted(() => {
         //Verificar si ya hay un usuario autenticado
@@ -53,6 +54,14 @@ import { useRouter } from 'vue-router';
             authed.value = true
             const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
             nombreUsuario.value = usuarios.value.nombre
+        }
+
+        //Verificar si el usuario es administrador
+        if (localStorage.getItem('usuario')) {
+            const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
+            if (usuarios.value.rol == 1) {
+                isAdmin.value = true
+            }
         }
     })
 

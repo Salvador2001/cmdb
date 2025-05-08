@@ -18,6 +18,11 @@ router.get('/:id', async (req: Request, res: Response) => {
     res.send(configuracion);
 });
 
+router.get('/rfc/:rfc', async (req: Request, res: Response) => {
+    let configuracion = await configuracionesServices.encuentraConfiguracionPorRFC(req.params.rfc);
+    res.send(configuracion);
+});
+
 router.post('/', async (req: Request, res: Response) => {
     try {
         const { nombre, fabricante, tipo, estatus, ubicacion, serial, fecha_compra, rfc } = req.body;

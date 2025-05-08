@@ -8,6 +8,11 @@ router.get('/', async (_req: Request, res: Response) => {
     res.send(conjuntoSoftware);
 });
 
+router.get('/:configuracion', async (req: Request, res: Response) => {
+    let listaConjuntoSoftware = await conjuntoSoftwareServices.obtieneListaConjuntoSoftware(Number(req.params.configuracion));
+    res.send(listaConjuntoSoftware);
+});
+
 router.get('/:configuracion/:software', async (req: Request, res: Response) => {
     let conjunto = await conjuntoSoftwareServices.encuentraConjuntoSoftware(Number(req.params.configuracion), Number(req.params.software));
     res.send(conjunto);

@@ -22,6 +22,11 @@ export const useConfiguraciones = () => {
         configuraciones.value = respuesta.data
     }
 
+    const traeConfiguracionPorRFC = async (rfc:number) => {
+        const respuesta = await configuracionesApi.get<Configuracion[]>('/rfc/'+rfc)
+        configuraciones.value = respuesta.data
+    }
+
     const agregarConfiguracion = async (configuracion:ConfiguracionAgregar) => {
         const respuesta = await configuracionesApi.post('/', configuracion)
         if (respuesta.data.affectedRows >= 1) {
@@ -51,6 +56,7 @@ export const useConfiguraciones = () => {
     return{
         configuraciones,
         mensaje,
+        traeConfiguracionPorRFC,
         traeConfiguraciones,
         traeConfiguracionId,
         agregarConfiguracion,

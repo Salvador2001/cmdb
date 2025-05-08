@@ -52,3 +52,74 @@ SET
     departamento = 3
 WHERE 
     id = 3;
+
+
+-----
+use cmdb;
+
+SELECT 
+    s.id AS software_id,
+    s.nombre AS software_nombre,
+    s.desarrollador AS software_desarrollador,
+    s.tipo AS software_tipo,
+    s.licencia AS software_licencia,
+    s.version AS software_version,
+    s.descripcion AS software_descripcion
+FROM 
+    ConjuntoSoftware cs
+JOIN 
+    Software s ON cs.software = s.id
+WHERE 
+    cs.configuracion = 2; -- Reemplaza '3' con el ID de la configuración deseada
+
+select * from ConjuntoSoftware;
+
+select * from Componentes;
+
+--
+use cmdb;
+
+SELECT 
+    sc.id AS solicitud_id,
+    i.folio AS incidencia_folio,
+    sc.descripcion AS solicitud_descripcion,
+    sc.estatus AS solicitud_estatus,
+    sc.presupuesto AS solicitud_presupuesto,
+    CONCAT(c.serial, ' - ', c.nombre) AS configuracion,
+    sc.fecha AS fecha_solicitud,
+    sc.requiere_comite AS requiere_comite,
+    u.nombre AS ubicacion
+FROM 
+    SolicitudesCambio sc
+JOIN 
+    Servicios s ON sc.servicio = s.id
+JOIN 
+    Incidencias i ON s.incidencia = i.id
+JOIN 
+    Configuraciones c ON i.configuracion = c.id
+JOIN 
+    Ubicacion u ON c.ubicacion = u.id;
+
+use cmdb;
+SELECT 
+    c.id AS configuracion_id,
+    c.serial AS configuracion_serial,
+    c.nombre AS configuracion_nombre,
+    c.tipo AS configuracion_tipo,
+    c.fabricante AS configuracion_fabricante,
+    c.estatus AS configuracion_estatus,
+    c.fecha_compra AS configuracion_fecha_compra,
+    c.rfc AS configuracion_rfc,
+    u.id AS ubicacion
+FROM 
+    SolicitudesCambio sc
+JOIN 
+    Servicios s ON sc.servicio = s.id
+JOIN 
+    Incidencias i ON s.incidencia = i.id
+JOIN 
+    Configuraciones c ON i.configuracion = c.id
+JOIN 
+    Ubicacion u ON c.ubicacion = u.id
+WHERE 
+    sc.id = 1;
