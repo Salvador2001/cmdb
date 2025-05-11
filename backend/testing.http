@@ -150,3 +150,10 @@ Content-Type: application/json
 GET http://localhost:3001/api/solicitudes-cambio/1
 
 ###
+
+DELETE http://localhost:3001/api/solicitudes-cambio
+Content-Type: application/json
+
+{
+    "id": 5
+}

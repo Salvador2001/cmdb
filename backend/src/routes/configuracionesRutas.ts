@@ -8,6 +8,11 @@ router.get('/', async (_req: Request, res: Response) => {
     res.send(configuraciones);
 });
 
+router.get('/con-servicio', async (_req: Request, res: Response) => {
+    let configuraciones = await configuracionesServices.obtieneConfiguracionesConServicio();
+    res.send(configuraciones);
+});
+
 router.get('/departamento/:id', async (req: Request, res: Response) => {
     let configuracion = await configuracionesServices.obtieneConfiguracionesPorDepartamento(Number(req.params.id));
     res.send(configuracion);

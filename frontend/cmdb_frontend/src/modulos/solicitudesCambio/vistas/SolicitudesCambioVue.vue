@@ -3,11 +3,11 @@
         <h3></h3>
         <h3>RFCs</h3>
         <div>
-            <!-- <RouterLink :to="{path: '/rfc/agregar'}">
+            <RouterLink v-if=" isAdmin || isTecnico " :to="{path: '/solicitudes-cambio/agregar'}">
                 <button class="btn btn-sm btn-outline-primary">
                     Solicitar RFC <i class="fa fa-plus"></i>
                 </button>
-            </RouterLink> -->
+            </RouterLink>
         </div>
     </section>
     <!-- <h5 :key="nombreDepartamento">Departamento: {{ isAdmin ? "Administrador" : nombreDepartamento }}</h5> -->
@@ -38,7 +38,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody v-if="isAdmin == true">
+            <tbody v-if="isAdmin == true || isTecnico == true">
                 <tr v-if="solicitudesVistaCategorizadas.length === 0">
                     <td class="centrado" colspan="10">Sin RFCs registrados</td>
                 </tr>
@@ -80,6 +80,7 @@ const { traeSolicitudesCambioVista, solicitudesCambioVista } = useSolicitudesCam
 const { getFechaYHora } = dateHelper();
 
     let isAdmin = ref(false)
+    let isTecnico = ref(false)
     let tabActiva = ref('pendientes')
     let solicitudesVistaCategorizadas = ref<SolicitudCambioVista[]>([])
 
@@ -89,8 +90,11 @@ const { getFechaYHora } = dateHelper();
         const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
         if (usuarios.value.rol == 1){
             isAdmin.value = true
-            await traeSolicitudesCambioVista()
+        } 
+        else if (usuarios.value.rol == 3){
+            isTecnico.value = true
         }
+        await traeSolicitudesCambioVista()
         solicitudesCambioVista.value.forEach((solicitud) => {
             solicitud.fecha = getFechaYHora(solicitud.fecha);
         })

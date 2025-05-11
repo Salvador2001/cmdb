@@ -37,6 +37,21 @@ export const encuentraServicioPorIncidencia = async (incidencia: number) => {
     }
 }
 
+export const encuentraServicioPorFolioIncidencia = async (folio: string) => {
+    try {
+        const [results] = await conexion.query(
+            `SELECT s.* 
+             FROM Servicios s
+             JOIN Incidencias i ON s.incidencia = i.id
+             WHERE i.folio = ?`, 
+            [folio]
+        );
+        return results;
+    } catch (err) {
+        return { error: "No se encuentra el servicio con ese folio de incidencia" };
+    }
+};       
+
 export const encuentraServicioPorResponsable = async (responsable: number) => {
     try {
         const [results] = await conexion.query('SELECT * FROM Servicios WHERE responsable = ?', [responsable]);

@@ -56,10 +56,10 @@ import { useRouter } from 'vue-router';
             nombreUsuario.value = usuarios.value.nombre
         }
 
-        //Verificar si el usuario es administrador
+        //Verificar si el usuario es administrador o tecnico
         if (localStorage.getItem('usuario')) {
             const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
-            if (usuarios.value.rol == 1) {
+            if (usuarios.value.rol == 1 || usuarios.value.rol == 3) {
                 isAdmin.value = true
             }
         }

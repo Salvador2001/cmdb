@@ -1,15 +1,21 @@
 import { ref } from "vue"
-import type { Configuracion, ConfiguracionAgregar } from "../interfaces/configuraciones-interface"
+import type { Configuracion, ConfiguracionAgregar, ConfiguracionConFolioIncidencia } from "../interfaces/configuraciones-interface"
 import configuracionesApi from "../api/configuracionesAPI"
 
 export const useConfiguraciones = () => {
     const configuraciones = ref<Configuracion[]>([])
+    const configuracionesConServicio = ref<ConfiguracionConFolioIncidencia[]>([])
     let mensaje = ref(0);
 
     const traeConfiguraciones = async () => {
         const respuesta = await configuracionesApi.get<Configuracion[]>('/')
         configuraciones.value = respuesta.data
         console.log(configuraciones.value) //debug
+    }
+
+    const traeConfiguracionesConServicio = async () => {
+        const respuesta = await configuracionesApi.get<ConfiguracionConFolioIncidencia[]>('/con-servicio')
+        configuracionesConServicio.value = respuesta.data
     }
 
     const traeConfiguracionesPorDepartamento = async (departamentoId: number) => {
@@ -55,6 +61,8 @@ export const useConfiguraciones = () => {
 
     return{
         configuraciones,
+        configuracionesConServicio,
+        traeConfiguracionesConServicio,
         mensaje,
         traeConfiguracionPorRFC,
         traeConfiguraciones,

@@ -22,6 +22,11 @@ export const useServicios = () => {
         servicios.value = respuesta.data;
     };
 
+    const traeServicioFolioIncidencia = async (folio: string) => {
+        const respuesta = await serviciosApi.get<Servicio[]>('/folio-incidencia/' + folio);
+        servicios.value = respuesta.data;
+    };
+
     const traeServicioResponsable = async (id: number) => {
         const respuesta = await serviciosApi.get<Servicio[]>('/responsable/' + id);
         servicios.value = respuesta.data;
@@ -54,6 +59,7 @@ export const useServicios = () => {
         mensaje,
         traeServicios,
         traeServicioId,
+        traeServicioFolioIncidencia,
         traeServicioIncidencia,
         traeServicioResponsable,
         agregarServicio,

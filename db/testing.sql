@@ -123,3 +123,25 @@ JOIN
     Ubicacion u ON c.ubicacion = u.id
 WHERE 
     sc.id = 1;
+
+-- trae todas las configuraciones + incidencia_folio que existan en incidencias con un servicio relacionado
+use cmdb;
+SELECT 
+    c.id AS id,
+    i.folio AS incidencia_folio,
+    c.serial AS serial,
+    c.nombre AS nombre,
+    c.tipo AS tipo,
+    c.fabricante AS fabricante,
+    c.estatus AS estatus,
+    c.fecha_compra AS fecha_compra,
+    c.rfc AS rfc,
+    u.id AS ubicacion
+FROM 
+    Configuraciones c
+JOIN 
+    Incidencias i ON c.id = i.configuracion
+JOIN 
+    Servicios s ON i.id = s.incidencia
+JOIN 
+    Ubicacion u ON c.ubicacion = u.id;

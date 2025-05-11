@@ -48,6 +48,35 @@ export const obtieneConfiguracionesPorDepartamento = async (departamentoId: numb
     }
 };
 
+export const obtieneConfiguracionesConServicio = async () => {
+    try {
+        const [results] = await conexion.query(`
+            SELECT 
+                c.id AS id,
+                i.folio AS folio_incidencia,
+                c.serial AS serial,
+                c.nombre AS nombre,
+                c.tipo AS tipo,
+                c.fabricante AS fabricante,
+                c.estatus AS estatus,
+                c.fecha_compra AS fecha_compra,
+                c.rfc AS rfc,
+                u.id AS ubicacion
+            FROM 
+                Configuraciones c
+            JOIN 
+                Incidencias i ON c.id = i.configuracion
+            JOIN 
+                Servicios s ON i.id = s.incidencia
+            JOIN 
+                Ubicacion u ON c.ubicacion = u.id;
+        `);
+        return results;
+    } catch (err) {
+        return { error: "No se pueden obtener las configuraciones con servicio" };
+    }
+};
+
 export const encuentraConfiguracion = async (id: number) => {
     try {
         const [results] = await conexion.query('SELECT * FROM Configuraciones WHERE id = ? LIMIT 1', [id]);

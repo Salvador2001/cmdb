@@ -10,6 +10,19 @@ export interface Configuracion {
     rfc: number | null;
 }
 
+export interface ConfiguracionConFolioIncidencia {
+    id: number;
+    folio_incidencia: string;
+    serial: string;
+    nombre: string;
+    tipo: string;
+    fabricante: string;
+    estatus: string;
+    fecha_compra: string;
+    rfc: number | null;
+    ubicacion: number | null;
+}
+
 export interface ConfiguracionAgregar {
     nombre: string;
     fabricante: string;

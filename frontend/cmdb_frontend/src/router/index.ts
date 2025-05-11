@@ -13,6 +13,7 @@ import PersonalEditarVue from '@/modulos/personal/vistas/PersonalEditarVue.vue'
 import PersonalVue from '@/modulos/personal/vistas/PersonalVue.vue'
 import TestAPI from '@/modulos/personal/vistas/TestAPI.vue'
 import BienvenidaVue from '@/modulos/principal/vistas/BienvenidaVue.vue'
+import SolicitudesCambioAgregarVue from '@/modulos/solicitudesCambio/vistas/SolicitudesCambioAgregarVue.vue'
 import SolicitudesCambioEditarVue from '@/modulos/solicitudesCambio/vistas/SolicitudesCambioEditarVue.vue'
 import SolicitudesCambioVue from '@/modulos/solicitudesCambio/vistas/SolicitudesCambioVue.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -79,6 +80,11 @@ const router = createRouter({
       path: '/solicitudes-cambio',
       name: 'solicitudes-cambio',
       component: SolicitudesCambioVue
+    },
+    {
+      path: '/solicitudes-cambio/agregar',
+      name: 'solicitudes-cambio-agregar',
+      component: SolicitudesCambioAgregarVue
     },
     {
       path: '/solicitudes-cambio/:id/editar',

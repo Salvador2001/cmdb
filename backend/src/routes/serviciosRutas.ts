@@ -18,6 +18,11 @@ router.get('/incidencia/:id', async (req: Request, res: Response) => {
     res.send(servicio);
 });
 
+router.get('/folio-incidencia/:folio', async (req: Request, res: Response) => {
+    let servicio = await serviciosServices.encuentraServicioPorFolioIncidencia(req.params.folio);
+    res.send(servicio);
+});
+
 router.get('/responsable/:id', async (req: Request, res: Response) => {
     let servicio = await serviciosServices.encuentraServicioPorResponsable(Number(req.params.id));
     res.send(servicio);
