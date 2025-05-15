@@ -73,7 +73,7 @@
                     <button :class="{ disabled: tieneServicio && (!isAdmin && !isTecnico) }" class="btn btn-primary" @click="onActualizar(incidencias[0])">Actualizar</button>
                     <button :class="{ disabled: tieneServicio || (!isAdmin || !isTecnico) }" class="btn btn-outline-primary ms-2" @click="crearServicio(incidencias[0].id)">Iniciar servicio</button>
                     <button :class="{ disabled: ['Terminada', 'Liberada', 'Rechazada'].includes(incidencias[0].estatus) }" v-if="tieneServicio && (isAdmin || isTecnico)" class="btn btn-success ms-2" @click="resolverIncidencia(incidencias[0])">Resolver Incidencia</button> 
-                    <button :class="{ disabled: ['Terminada', 'Liberada', 'Rechazada'].includes(incidencias[0].estatus) && (isAdmin || isTecnico) }" class="btn btn-secondary ms-2" @click=" onLiberarIncidencia() ">Liberar Incidencia</button>
+                    <button :class="{ disabled: (['Terminada', 'Liberada', 'Rechazada'].includes(incidencias[0].estatus) || (isAdmin || isTecnico)) || !tieneServicio }" class="btn btn-secondary ms-2" @click=" onLiberarIncidencia() ">Liberar Incidencia</button>
                 </div>
             </div>
         </div>
