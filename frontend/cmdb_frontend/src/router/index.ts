@@ -4,6 +4,7 @@ import ConfiguracionesAgregarVue from '@/modulos/configuraciones/vistas/Configur
 import ConfiguracionesBorrarVue from '@/modulos/configuraciones/vistas/ConfiguracionesBorrarVue.vue'
 import ConfiguracionesEditarVue from '@/modulos/configuraciones/vistas/ConfiguracionesEditarVue.vue'
 import ConfiguracionesVue from '@/modulos/configuraciones/vistas/ConfiguracionesVue.vue'
+import EvaluacionesAgregarVue from '@/modulos/evaluaciones/vistas/EvaluacionesAgregarVue.vue'
 import IncidenciasAgregarVue from '@/modulos/incidencias/vistas/IncidenciasAgregarVue.vue'
 import IncidenciasEditarVue from '@/modulos/incidencias/vistas/IncidenciasEditarVue.vue'
 import IncidenciasVue from '@/modulos/incidencias/vistas/IncidenciasVue.vue'
@@ -90,6 +91,11 @@ const router = createRouter({
       path: '/solicitudes-cambio/:id/editar',
       name: 'solicitudes-cambio-editar',
       component: SolicitudesCambioEditarVue
+    },
+    {
+      path: '/evaluaciones/agregar/:servicioId',
+      name: 'evaluaciones-agregar',
+      component: EvaluacionesAgregarVue
     },
     {
       path: '/personal',

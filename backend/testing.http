@@ -157,3 +157,12 @@ Content-Type: application/json
 {
     "id": 5
 }
+
+###
+
+DELETE http://localhost:3001/api/evaluaciones
+Content-Type: application/json
+
+{
+    "id": 4
+}

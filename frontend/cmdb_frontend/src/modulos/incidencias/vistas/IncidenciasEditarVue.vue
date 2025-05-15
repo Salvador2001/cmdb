@@ -72,6 +72,8 @@
                 <div class="mb-3">
                     <button :class="{ disabled: tieneServicio && (!isAdmin && !isTecnico) }" class="btn btn-primary" @click="onActualizar(incidencias[0])">Actualizar</button>
                     <button :class="{ disabled: tieneServicio || (!isAdmin || !isTecnico) }" class="btn btn-outline-primary ms-2" @click="crearServicio(incidencias[0].id)">Iniciar servicio</button>
+                    <button :class="{ disabled: ['Terminada', 'Liberada', 'Rechazada'].includes(incidencias[0].estatus) }" v-if="tieneServicio && (isAdmin || isTecnico)" class="btn btn-success ms-2" @click="resolverIncidencia(incidencias[0])">Resolver Incidencia</button> 
+                    <button :class="{ disabled: ['Terminada', 'Liberada', 'Rechazada'].includes(incidencias[0].estatus) && (isAdmin || isTecnico) }" class="btn btn-secondary ms-2" @click=" onLiberarIncidencia() ">Liberar Incidencia</button>
                 </div>
             </div>
         </div>
@@ -80,7 +82,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useIncidencias } from '../controladores/useIncidencias';
 import { useConfiguraciones } from '@/modulos/configuraciones/controladores/useConfiguraciones';
 import { dateHelper } from '@/util/dateHelper';
@@ -98,6 +100,7 @@ const { traeUsuarios, usuarios, usuarios: usuarioAuth } = useUsuarios();
 const { getFechaYHora } = dateHelper();
 
 const route = useRoute();
+const router = useRouter();
 let idIncidencia = 0;
 let tieneServicio = ref(false);
 let isAdmin = ref(false);
@@ -175,6 +178,20 @@ const onActualizar = async (incidencia: Incidencia) => {
     await actualizarIncidencia(incidencia);
     await actualizarServicio(servicios.value[0]);
 };
+
+const onLiberarIncidencia = async () => {
+    if (servicios.value[0]){
+        // Redirige a la vista de EvaluacionesAgregarVue, pasando el id del servicio
+        router.push({ name: 'evaluaciones-agregar', params: { servicioId: servicios.value[0].id } });
+    }
+};
+
+const resolverIncidencia = async ( incidencia: Incidencia ) => {
+    incidencia.estatus = 'Terminada';
+    await onActualizar(incidencia);
+}
+    
+
 
 </script>
 
