@@ -14,6 +14,9 @@ import PersonalEditarVue from '@/modulos/personal/vistas/PersonalEditarVue.vue'
 import PersonalVue from '@/modulos/personal/vistas/PersonalVue.vue'
 import TestAPI from '@/modulos/personal/vistas/TestAPI.vue'
 import BienvenidaVue from '@/modulos/principal/vistas/BienvenidaVue.vue'
+import ProblemasAgregarVue from '@/modulos/problemas/vistas/ProblemasAgregarVue.vue'
+import ProblemasEditarVue from '@/modulos/problemas/vistas/ProblemasEditarVue.vue'
+import ProblemasVue from '@/modulos/problemas/vistas/ProblemasVue.vue'
 import SolicitudesCambioAgregarVue from '@/modulos/solicitudesCambio/vistas/SolicitudesCambioAgregarVue.vue'
 import SolicitudesCambioEditarVue from '@/modulos/solicitudesCambio/vistas/SolicitudesCambioEditarVue.vue'
 import SolicitudesCambioVue from '@/modulos/solicitudesCambio/vistas/SolicitudesCambioVue.vue'
@@ -91,6 +94,21 @@ const router = createRouter({
       path: '/solicitudes-cambio/:id/editar',
       name: 'solicitudes-cambio-editar',
       component: SolicitudesCambioEditarVue
+    },
+    {
+      path: '/problemas',
+      name: 'problemas',
+      component: ProblemasVue
+    },
+    {
+      path: '/problemas/agregar',
+      name: 'problemas-agregar',
+      component: ProblemasAgregarVue
+    },
+    {
+      path: '/problemas/:id/editar',
+      name: 'problemas-editar',
+      component: ProblemasEditarVue
     },
     {
       path: '/evaluaciones/agregar/:servicioId',

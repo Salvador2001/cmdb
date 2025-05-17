@@ -12,14 +12,17 @@
                         <li class="nav-item margin">
                             <!-- <RouterLink class="nav-link item" to="/personal">Personal</RouterLink> -->
                         </li>
-                        <li v-if="authed" class="nav-item margin">
+                        <li v-if="authed && !tienePermsProblemas" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/configuraciones">Configuraciones</RouterLink>
                         </li>
-                        <li v-if="authed" class="nav-item margin">
+                        <li v-if="authed && !tienePermsProblemas" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/incidencias">Incidencias</RouterLink>
                         </li>
-                        <li v-if="authed && isAdmin" class="nav-item margin">
+                        <li v-if="authed && (isAdmin || isTecnico)" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/solicitudes-cambio">RFCs</RouterLink>
+                        </li>
+                        <li v-if="authed && (tienePermsProblemas || isAdmin)" class="nav-item margin">
+                            <RouterLink class="nav-link item" to="/problemas">Problemas</RouterLink>
                         </li>
                    </ul>
                 </div>
@@ -47,6 +50,8 @@ import { useRouter } from 'vue-router';
     const authed = ref(false);
     let nombreUsuario = ref('');
     let isAdmin = ref(false);
+    let isTecnico = ref(false);
+    let tienePermsProblemas = ref(false);
 
     onMounted(() => {
         //Verificar si ya hay un usuario autenticado
@@ -59,8 +64,14 @@ import { useRouter } from 'vue-router';
         //Verificar si el usuario es administrador o tecnico
         if (localStorage.getItem('usuario')) {
             const usuarios = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
-            if (usuarios.value.rol == 1 || usuarios.value.rol == 3) {
+            if (usuarios.value.rol == 1) {
                 isAdmin.value = true
+            }
+            if (usuarios.value.rol == 3) {
+                isTecnico.value = true
+            }
+            if (usuarios.value.rol == 9) {
+                tienePermsProblemas.value = true
             }
         }
     })

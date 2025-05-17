@@ -235,3 +235,22 @@ ADD COLUMN descripcion TEXT CHARACTER SET utf8mb4;
 
 ALTER TABLE SolicitudesCambio
 ADD COLUMN presupuesto DECIMAL(10,2) DEFAULT NULL;
+
+-- Módulo de gestión de problemas
+
+CREATE TABLE Problemas(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    folio VARCHAR(8) CHARACTER SET utf8mb4 UNIQUE NOT NULL,
+    error_conocido VARCHAR(50) CHARACTER SET utf8mb4,
+    causa_raiz VARCHAR(50) CHARACTER SET utf8mb4,
+    solucion TEXT CHARACTER SET utf8mb4,
+    prioridad VARCHAR(50) CHARACTER SET utf8mb4,
+    estatus VARCHAR(50) CHARACTER SET utf8mb4, -- identificado, resuelto, liberado.
+    fecha_creacion DATETIME NOT NULL,
+    autor INT UNSIGNED NOT NULL,
+    departamento INT UNSIGNED NOT NULL,
+    responsable INT UNSIGNED DEFAULT NULL,
+    FOREIGN KEY (autor) REFERENCES Usuarios(id),
+    FOREIGN KEY (departamento) REFERENCES Departamentos(id),
+    FOREIGN KEY (responsable) REFERENCES Usuarios(id)
+);

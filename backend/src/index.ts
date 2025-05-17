@@ -29,6 +29,7 @@ import evaluacionesRutas from './routes/evaluacionesRutas';
 import solicitudesCambioRutas from './routes/solicitudesCambioRutas';
 import bitacorausuariosRutas from './routes/bitacoraUsuariosRutas';
 import bitacoraIncidenciasRutas from './routes/bitacoraIncidenciasRutas';
+import problemasRutas from './routes/problemasRutas';
 
 //  Todo lo que regresa al usuario es tipo JSON
 app.use(express.json());
@@ -63,6 +64,7 @@ app.use('/api/evaluaciones', evaluacionesRutas);
 app.use('/api/solicitudes-cambio', solicitudesCambioRutas);
 app.use('/api/bitacora-usuarios', bitacorausuariosRutas);
 app.use('/api/bitacora-incidencias', bitacoraIncidenciasRutas);
+app.use('/api/problemas', problemasRutas);
 
 //  Ruta
 //  guión bajo ignora el parámetro, para que no sea obligatorio

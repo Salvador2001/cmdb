@@ -166,3 +166,19 @@ Content-Type: application/json
 {
     "id": 4
 }
+
+###
+
+POST http://localhost:3001/api/roles
+Content-Type: application/json
+
+{
+    "nombre": "Técnico de Problemas"
+}
+
+###
+
+PUT http://localhost:3001/api/usuarios
+Content-Type: application/json
+
+{"id":5,"nombre":"José Fernández","rol":9,"departamento":1}
