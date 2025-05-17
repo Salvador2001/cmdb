@@ -1,6 +1,6 @@
 <template>
     <div class="contenedor">
-        <h1>Bienvenido al gestor de configuraciones</h1>
+        <h1>Bienvenido(a) a la plataforma ITIL del Tec de Culiacán</h1>
     </div>
 </template>
 
