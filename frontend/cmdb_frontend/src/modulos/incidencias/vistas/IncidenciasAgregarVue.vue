@@ -9,11 +9,11 @@
             </div>
             <div class="card-body">
                 <Form @submit="onTodoBien">
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         Folio
                         <Field name="folio" type="text" class="form-control" v-model="incidencia.folio" />
                         <ErrorMessage name="folio" class="errorValidacion" />
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                         Descripción
                         <Field name="descripcion" as="textarea" type="text" class="form-control" v-model="incidencia.descripcion" />
@@ -116,6 +116,7 @@ let incidencia = ref<IncidenciaAgregar>({
     prioridad: '',
     estatus: '',
     fecha_creacion: '',
+    fecha_resolucion: null,
     autor: 0,
     configuracion: 0,
     departamento: 0
@@ -141,6 +142,7 @@ const onTodoBien = async () => {
     incidencia.value.estatus = 'Abierta';
     incidencia.value.autor = usuario.value.id;
     incidencia.value.departamento = usuario.value.departamento;
+    incidencia.value.folio = 'I-' + Math.floor(Math.random() * 1_000_000).toString().padStart(6, '0'); // TODO: Remover esta línea
     await agregarIncidencia(incidencia.value);
 }
 </script>

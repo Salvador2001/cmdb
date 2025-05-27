@@ -20,8 +20,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { folio, descripcion, categoria, prioridad, estatus, fecha_creacion, autor, configuracion, departamento } = req.body;
-        const nueva = await incidenciasServices.agregarIncidencia({ folio, descripcion, categoria, prioridad, estatus, fecha_creacion, autor, configuracion, departamento });
+        const { folio, descripcion, categoria, prioridad, estatus, fecha_creacion, fecha_resolucion, autor, configuracion, departamento } = req.body;
+        const nueva = await incidenciasServices.agregarIncidencia({ folio, descripcion, categoria, prioridad, estatus, fecha_creacion, fecha_resolucion, autor, configuracion, departamento });
         res.send(nueva);
     } catch (err) {
         res.send('No se puede agregar la incidencia');
@@ -30,8 +30,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, folio, descripcion, categoria, prioridad, estatus, fecha_creacion, autor, configuracion, departamento } = req.body;
-        const modificada = await incidenciasServices.modificarIncidencia({ id, folio, descripcion, categoria, prioridad, estatus, fecha_creacion, autor, configuracion, departamento });
+        const { id, folio, descripcion, categoria, prioridad, estatus, fecha_creacion, fecha_resolucion, autor, configuracion, departamento } = req.body;
+        const modificada = await incidenciasServices.modificarIncidencia({ id, folio, descripcion, categoria, prioridad, estatus, fecha_creacion, fecha_resolucion, autor, configuracion, departamento });
         res.send(modificada);
     } catch (e) {
         res.status(400).send("Error en los datos");

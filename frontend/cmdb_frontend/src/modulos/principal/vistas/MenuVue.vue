@@ -12,10 +12,10 @@
                         <li class="nav-item margin">
                             <!-- <RouterLink class="nav-link item" to="/personal">Personal</RouterLink> -->
                         </li>
-                        <li v-if="authed && !tienePermsProblemas" class="nav-item margin">
+                        <li v-if="authed " class="nav-item margin">
                             <RouterLink class="nav-link item" to="/configuraciones">Configuraciones</RouterLink>
                         </li>
-                        <li v-if="authed && !tienePermsProblemas" class="nav-item margin">
+                        <li v-if="authed " class="nav-item margin">
                             <RouterLink class="nav-link item" to="/incidencias">Incidencias</RouterLink>
                         </li>
                         <li v-if="authed && (isAdmin || isTecnico)" class="nav-item margin">

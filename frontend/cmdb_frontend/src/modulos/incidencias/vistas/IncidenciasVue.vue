@@ -32,13 +32,14 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <!-- <th>Id</th> -->
                     <th>Folio</th>
                     <th>Descripcion</th>
                     <th>Categoría</th>
                     <th>Prioridad</th>
                     <th>Estatus</th>
                     <th>Fecha de creacion</th>
+                    <th>Fecha de resolución</th>
                     <th>Configuracion</th>
                     <th>Ubicación</th>
                     <th></th>
@@ -49,7 +50,7 @@
                     <td class="centrado" colspan="10">Sin incidencias registradas</td>
                 </tr>
                 <tr v-else v-for="(incidencia, index) in incidenciasVistaCategorizadas" :key="index">
-                    <td>{{ incidencia.id }}</td>
+                    <!-- <td>{{ incidencia.id }}</td> -->
                     <td>{{ incidencia.folio }}</td>
                     <td>{{ incidencia.descripcion }}</td>
                     <td>{{ incidencia.categoria }}</td>
@@ -62,6 +63,7 @@
                     </td>
                     <td>{{ incidencia.estatus }}</td>
                     <td>{{ incidencia.fecha_creacion }}</td>
+                    <td>{{ incidencia.fecha_resolucion }}</td>
                     <td>{{ incidencia.configuracion }}</td>
                     <td>{{ incidencia.ubicacion }}</td>
                     <td class="centrado">
@@ -87,7 +89,7 @@
                     <td class="centrado" colspan="10">Sin incidencias registradas</td>
                 </tr>
                 <tr v-else v-for="(incidencia, index) in incidenciasVistaCategorizadas" :key="index">
-                    <td>{{ incidencia.id }}</td>
+                    <!-- <td>{{ incidencia.id }}</td> -->
                     <td>{{ incidencia.folio }}</td>
                     <td>{{ incidencia.descripcion }}</td>
                     <td>{{ incidencia.categoria }}</td>
@@ -100,6 +102,7 @@
                     </td>
                     <td>{{ incidencia.estatus }}</td>
                     <td>{{ incidencia.fecha_creacion }}</td>
+                    <td>{{ incidencia.fecha_resolucion }}</td>
                     <td>{{ incidencia.configuracion }}</td>
                     <td>{{ incidencia.ubicacion }}</td>
                     <td class="centrado">
@@ -158,6 +161,10 @@ const { getFechaYHora } = dateHelper();
             isAdmin.value = true
             await traeIncidencias()
         }
+        else if (usuarios.value.rol == 9){
+            await traeIncidencias()
+            // debería validarse los permisos del técnico de problemas
+        }
         else if(usuarios.value.rol == 3){
             await traeIncidencias()
             await traeServicioResponsable(usuarios.value.id)
@@ -180,6 +187,11 @@ const { getFechaYHora } = dateHelper();
         }
         incidencias.value.forEach((incidencia) => {
             incidencia.fecha_creacion = getFechaYHora(incidencia.fecha_creacion);
+            if (incidencia.fecha_resolucion) {
+                incidencia.fecha_resolucion = getFechaYHora(incidencia.fecha_resolucion);
+            } else {
+                incidencia.fecha_resolucion = null;
+            }
         })
 
         for (const incidencia of incidencias.value) {
@@ -197,6 +209,7 @@ const { getFechaYHora } = dateHelper();
                 prioridad: incidencia.prioridad,
                 estatus: incidencia.estatus,
                 fecha_creacion: incidencia.fecha_creacion,
+                fecha_resolucion: incidencia.fecha_resolucion,
                 configuracion: configuraciones.value[0].serial + " - " + configuraciones.value[0].nombre,
                 ubicacion: ubicaciones.value[0].nombre
             })

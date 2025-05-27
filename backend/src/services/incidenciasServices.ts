@@ -39,6 +39,7 @@ export const obtieneIncidenciasPorDepartamento = async (departamentoId: number) 
                 i.prioridad,
                 i.estatus,
                 i.fecha_creacion,
+                i.fecha_resolucion,
                 i.autor,
                 i.configuracion,
                 d.nombre AS departamento
@@ -58,8 +59,8 @@ export const obtieneIncidenciasPorDepartamento = async (departamentoId: number) 
 export const agregarIncidencia = async (nueva: IncidenciaNueva) => {
     try {
         const [results] = await conexion.query(
-            'INSERT INTO Incidencias(folio, descripcion, categoria, prioridad, estatus, fecha_creacion, autor, configuracion, departamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [nueva.folio, nueva.descripcion, nueva.categoria, nueva.prioridad, nueva.estatus, nueva.fecha_creacion, nueva.autor, nueva.configuracion, nueva.departamento]
+            'INSERT INTO Incidencias(folio, descripcion, categoria, prioridad, estatus, fecha_creacion, fecha_resolucion, autor, configuracion, departamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [nueva.folio, nueva.descripcion, nueva.categoria, nueva.prioridad, nueva.estatus, nueva.fecha_creacion, nueva.fecha_resolucion, nueva.autor, nueva.configuracion, nueva.departamento]
         );
         return results;
     } catch (err) {
@@ -70,8 +71,8 @@ export const agregarIncidencia = async (nueva: IncidenciaNueva) => {
 export const modificarIncidencia = async (modificada: Incidencia) => {
     try {
         const [results] = await conexion.query(
-            'UPDATE Incidencias SET folio=?, descripcion=?, categoria=?, prioridad=?, estatus=?, fecha_creacion=?, autor=?, configuracion=?, departamento=? WHERE id=?',
-            [modificada.folio, modificada.descripcion, modificada.categoria, modificada.prioridad, modificada.estatus, modificada.fecha_creacion, modificada.autor, modificada.configuracion, modificada.departamento, modificada.id]
+            'UPDATE Incidencias SET folio=?, descripcion=?, categoria=?, prioridad=?, estatus=?, fecha_creacion=?, fecha_resolucion=?, autor=?, configuracion=?, departamento=? WHERE id=?',
+            [modificada.folio, modificada.descripcion, modificada.categoria, modificada.prioridad, modificada.estatus, modificada.fecha_creacion, modificada.fecha_resolucion, modificada.autor, modificada.configuracion, modificada.departamento, modificada.id]
         );
         return results;
     } catch (err) {

@@ -9,6 +9,7 @@ export interface Incidencia {
     autor: number;
     configuracion: number;
     departamento: number;
+    fecha_resolucion: string | null;
 }
 
 export interface IncidenciaNueva {
@@ -21,4 +22,5 @@ export interface IncidenciaNueva {
     autor: number;
     configuracion: number;
     departamento: number;
+    fecha_resolucion: string | null;
 }

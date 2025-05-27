@@ -29,12 +29,14 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <!-- <th>Id</th> -->
                     <th>Folio</th>
                     <th>Error conocido</th>
+                    <th>Causa raíz</th>
+                    <th>Solución</th>
                     <th>Estatus</th>
-                    <th>Prioridad</th>
                     <th>Fecha de solicitud</th>
+                    <th>Fecha de resolución</th>
                     <th>Departamento</th>
                     <th>Responsable</th>
                     <th></th>
@@ -42,21 +44,17 @@
             </thead>
             <tbody v-if="isAdmin == true || isTecnico == true">
                 <tr v-if="listaProblemasCategorizados.length === 0">
-                    <td class="centrado" colspan="10">Sin problemas registrados</td>
+                    <td class="centrado" colspan="11">Sin problemas registrados</td>
                 </tr>
                 <tr v-else v-for="(problema, index) in listaProblemasCategorizados" :key="index">
-                    <td> {{ problema.id }} </td>
+                    <!-- <td> {{ problema.id }} </td> -->
                     <td> {{ problema.folio }} </td>
                     <td> {{ problema.error_conocido }} </td>
+                    <td> {{ problema.causa_raiz }} </td>
+                    <td> {{ problema.solucion || 'N/A' }} </td>
                     <td> {{ problema.estatus }} </td>
-                    <td :class="{
-                    'table-danger': problema.prioridad === 'Alta',
-                    'table-warning': problema.prioridad === 'Media',
-                    'table-success': problema.prioridad === 'Baja'
-                    }">
-                    {{ problema.prioridad }}
-                    </td>
                     <td> {{ problema.fecha_creacion }} </td>
+                    <td> {{ problema.fecha_resolucion || 'N/A' }} </td>
                     <td> {{ muestraDepartamento(problema.departamento) }} </td>
                     <td> {{ muestraResponsable(problema.responsable || 0) }} </td>
                     <td class="centrado">

@@ -23,13 +23,13 @@
                     <th>Fecha de compra</th>
                     <th>Estatus</th>
                     <th>Ubicación</th>
-                    <th>RFC</th>
+                    <!-- <th>RFC</th> -->
                     <th></th>
                 </tr>
             </thead>
             <tbody v-if="isAdmin == true">
                 <tr v-if="configuraciones.length === 0">
-                    <td class="centrado" colspan="7">Sin configuraciones registradas</td>
+                    <td class="centrado" colspan="6">Sin configuraciones registradas</td>
                 </tr>
                 <tr v-else v-for="(configuracion, index) in configuracionesVista" :key="index">
                     <td>{{ configuracion.id }}</td>
@@ -40,7 +40,7 @@
                     <td>{{ configuracion.fecha_compra }}</td>
                     <td>{{ configuracion.estatus }}</td>
                     <td>{{ configuracion.ubicacion }}</td>
-                    <td>{{ configuracion.rfc }}</td>
+                    <!-- <td>{{ configuracion.rfc }}</td> -->
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
@@ -61,7 +61,7 @@
             </tbody>
             <tbody v-else>
                 <tr v-if="configuraciones.length === 0">
-                    <td class="centrado" colspan="7">Sin configuraciones registradas</td>
+                    <td class="centrado" colspan="6">Sin configuraciones registradas</td>
                 </tr>
                 <tr v-else v-for="(configuracion, index) in configuraciones" :key="index">
                     <td>{{ configuracion.id }}</td>
@@ -72,7 +72,7 @@
                     <td>{{ configuracion.fecha_compra }}</td>
                     <td>{{ configuracion.estatus }}</td>
                     <td>{{ configuracion.ubicacion }}</td>
-                    <td>{{ configuracion.rfc }}</td>
+                    <!-- <td>{{ configuracion.rfc }}</td> -->
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             <button type="button" class="btn btn-sm btn-outline-secondary" @click="verComponentes(configuracion.id)">
@@ -100,7 +100,7 @@
                     <th>Fabricante</th>
                     <th>Tipo</th>
                     <th>Estatus</th>
-                    <th>RFC</th>
+                    <!-- <th>RFC</th> -->
                     <th></th>
                 </tr>
             </thead>
@@ -114,7 +114,7 @@
                     <td>{{ componentes.fabricante }}</td>
                     <td>{{ componentes.tipo }}</td>
                     <td>{{ componentes.estatus }}</td>
-                    <td>{{ componentes.rfc }}</td>
+                    <!-- <td>{{ componentes.rfc }}</td> -->
                     <td class="centrado">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                             
@@ -201,7 +201,7 @@ const { getFecha } = dateHelper();
             isAdmin.value = true
             await traeConfiguraciones()
         }
-        else if(usuarios.value.rol == 3){
+        else if(usuarios.value.rol == 3 || usuarios.value.rol == 9){
             await traeConfiguraciones()
         }
         else{

@@ -254,3 +254,37 @@ CREATE TABLE Problemas(
     FOREIGN KEY (departamento) REFERENCES Departamentos(id),
     FOREIGN KEY (responsable) REFERENCES Usuarios(id)
 );
+
+-- Modificaciones 26/05
+use cmdb;
+
+CREATE TABLE CatalogoServicios (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) CHARACTER SET utf8mb4 NOT NULL,
+    tiempo_estimado INT UNSIGNED NOT NULL -- tiempo estimado en minutos
+);
+
+CREATE TABLE ServiciosRealizados (
+    servicio_asignado INT UNSIGNED NOT NULL,
+    servicio_realizado INT UNSIGNED NOT NULL,
+    FOREIGN KEY (servicio_asignado) REFERENCES Servicios(id),
+    FOREIGN KEY (servicio_realizado) REFERENCES CatalogoServicios(id),
+    PRIMARY KEY (servicio_asignado, servicio_realizado)
+);
+
+CREATE TABLE IncidenciasProblema (
+    incidencia INT UNSIGNED NOT NULL,
+    problema INT UNSIGNED NOT NULL,
+    FOREIGN KEY (incidencia) REFERENCES Incidencias(id),
+    FOREIGN KEY (problema) REFERENCES Problemas(id),
+    PRIMARY KEY (incidencia, problema)
+);
+
+ALTER TABLE `Incidencias`
+ADD COLUMN fecha_resolucion DATETIME DEFAULT NULL;
+
+ALTER TABLE `Problemas`
+ADD COLUMN fecha_resolucion DATETIME DEFAULT NULL;
+
+ALTER TABLE `Problemas`
+DROP COLUMN prioridad;

@@ -96,6 +96,7 @@ onMounted(async () => {
 const onTodoBien = async () => {
     evaluacion.value.fecha = getFechaYHora(new Date().toISOString());
     incidencias.value[0].fecha_creacion = getFechaYHora(incidencias.value[0].fecha_creacion);
+    incidencias.value[0].fecha_resolucion = getFechaYHora(incidencias.value[0].fecha_resolucion || getFechaYHora(new Date().toISOString()));
     incidencias.value[0].estatus = 'Liberada';
     evaluacion.value.evaluador = usuario.value.id;
     evaluacion.value.servicio = servicios.value[0].id;

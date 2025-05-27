@@ -73,7 +73,6 @@ let problema = ref<ProblemaAgregar>({
     causa_raiz: '',
     solucion: '',
     estatus: '',
-    prioridad: 'N/A',
     responsable: null,
     fecha_creacion: '',
     departamento: 0,

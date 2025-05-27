@@ -132,3 +132,16 @@ VALUES
     ('INC003', 'Problema de red en oficina', 'Red', 'Alta', 'Resuelto', '2023-10-03 09:15:00', 3, 3, 3),
     ('INC004', 'Actualización de software pendiente', 'Software', 'Baja', 'Cerrado', '2023-10-04 14:45:00', 4, 4, 4),
     ('INC005', 'Impresora no responde', 'Hardware', 'Media', 'Abierto', '2023-10-05 08:20:00', 5, 5, 5);
+
+--- insertar catalogo de servicios
+
+USE cmdb;
+INSERT INTO CatalogoServicios (nombre, tiempo_estimado) VALUES
+('Formatear configuración', 30),
+('Reemplazar una pieza', 25),
+('Respaldar datos', 60),
+('Actualizar sistema operativo', 50),
+('Instalar software adicional', 25),
+('Mantenimiento preventivo del equipo', 10),
+('Diagnóstico de fallas', 20),
+('Configuración de red', 35);

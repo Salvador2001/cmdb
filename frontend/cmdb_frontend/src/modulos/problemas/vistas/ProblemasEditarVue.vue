@@ -17,6 +17,14 @@
                     <input type="text" class="form-control" v-model="problemas[0].folio" disabled>
                 </div>
                 <div class="mb-3">
+                    Incidencias relacionadas
+                    <select class="form-control" multiple v-model="incidenciasSeleccionadas">
+                        <option v-for="incidencia in incidencias" :key="incidencia.id" :value="incidencia.id">
+                            {{ incidencia.folio }} - {{ incidencia.estatus }} - {{ incidencia.descripcion }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
                     Error conocido
                     <input type="text" class="form-control" v-model="problemas[0].error_conocido">
                 </div>
@@ -46,7 +54,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     Prioridad
                     <select :disabled=" !isAdmin " class="form-control" v-model="problemas[0].prioridad">
                         <option value="" disabled>Seleccione una prioridad...</option>
@@ -54,7 +62,7 @@
                             {{ prioridad.nombre }}
                         </option>
                     </select>
-                </div>
+                </div> -->
                 <div class="mb-3">
                     Asignar a técnico responsable
                     <select :disabled=" !isAdmin " class="form-control" v-model="problemas[0].responsable">
@@ -80,10 +88,14 @@ import { useProblemas } from '../controladores/useProblemas';
 import type { Problema } from '../interfaces/problemas-interface';
 import { useUsuarios } from '@/modulos/usuarios/controladores/useUsuarios';
 import { useDepartamentos } from '@/modulos/departamentos/controladores/useDepartamentos';
+import { useIncidenciasProblema } from '@/modulos/incidenciasProblema/controladores/useIncidenciasProblema';
+import { useIncidencias } from '@/modulos/incidencias/controladores/useIncidencias';
 
 const { traeUsuarios, usuarios: responsables } = useUsuarios();
 const { traeProblemaId, actualizarProblema, problemas, mensaje } = useProblemas();
 const { traeDepartamentos, departamentos } = useDepartamentos();
+const { traeIncidencias, incidencias } = useIncidencias();
+const { traeIncidenciasProblemaId, agregarIncidenciaProblema, borrarIncidenciaProblema, incidenciasProblema } = useIncidenciasProblema();
 const { getFechaYHora } = dateHelper();
 
 const route = useRoute();
@@ -91,6 +103,7 @@ const route = useRoute();
 let idProblema = 0;
 let isAdmin = ref(false);
 let isTecnico = ref(false);
+let incidenciasSeleccionadas = ref<number[]>([]);
 
 const estatusList = [
     { id: 1, nombre: 'Identificado' },
@@ -99,11 +112,11 @@ const estatusList = [
     { id: 4, nombre: 'Liberado' },
 ];
 
-const prioridades = [
-    { id: 1, nombre: 'Alta' },
-    { id: 2, nombre: 'Media' },
-    { id: 3, nombre: 'Baja' }
-];
+// const prioridades = [
+//     { id: 1, nombre: 'Alta' },
+//     { id: 2, nombre: 'Media' },
+//     { id: 3, nombre: 'Baja' }
+// ];
 
 onMounted(async () => {
     const usuarioAuth = ref(JSON.parse(localStorage.getItem('usuario') || '{}'))
@@ -118,12 +131,38 @@ onMounted(async () => {
     await traeProblemaId(idProblema);
     await traeUsuarios();
     await traeDepartamentos();
+    await traeIncidencias();
+    await traeIncidenciasProblemaId(idProblema);
+    if (incidenciasProblema.value.length > 0) {
+        incidenciasSeleccionadas.value = incidenciasProblema.value.map(incidencia => incidencia.incidencia);
+    }
     responsables.value = responsables.value.filter(usuario => usuario.rol === 9); // Obtener solo técnicos especializados en problemas
     problemas.value[0].fecha_creacion = getFechaYHora(problemas.value[0].fecha_creacion);
+    if (problemas.value[0].fecha_resolucion) {
+        problemas.value[0].fecha_resolucion = getFechaYHora(problemas.value[0].fecha_resolucion);
+    }
 });
 
 
 const onActualizar = async (problema: Problema) => {
+    if (problema.estatus === 'Resuelto' || problema.estatus === 'Liberado' && problema.fecha_resolucion === null) {
+        problema.fecha_resolucion = getFechaYHora(new Date().toISOString());
+    } else {
+        problema.fecha_resolucion = null;
+    }
+    // Actualizar incidencias relacionadas
+    for (const incidenciaId of incidenciasSeleccionadas.value) {
+        const existe = incidenciasProblema.value.some(inc => inc.incidencia === incidenciaId);
+        if (!existe) {
+            await agregarIncidenciaProblema({ incidencia: incidenciaId, problema: problema.id });
+        }
+    }
+    // Eliminar incidencias que ya no están seleccionadas
+    for (const incProblema of incidenciasProblema.value) {
+        if (!incidenciasSeleccionadas.value.includes(incProblema.incidencia)) {
+            await borrarIncidenciaProblema(incProblema.incidencia, problema.id);
+        }
+    }
     // mensaje.value = 0;
     await actualizarProblema(problema);
 };

@@ -14,7 +14,7 @@
                 </div>
                 <div class="mb-3">
                     Folio
-                    <input type="text" :disabled="!isAdmin || !isTecnico" class="form-control" v-model="incidencias[0].folio">
+                    <input type="text" disabled class="form-control" v-model="incidencias[0].folio">
                 </div>
                 <div class="mb-3">
                     Descripción
@@ -69,6 +69,14 @@
                     Diagnóstico
                     <textarea class="form-control" :disabled="!isAdmin && !isTecnico" v-model="servicios[0].diagnostico"></textarea>
                 </div>
+                <div v-if="tieneServicio" class="mb-3">
+                    Servicios realizados
+                    <select :disabled=" tieneServicioRealizado " class="form-control" multiple v-model="serviciosSeleccionados">
+                        <option v-for="servicio in catalogoServicios" :key="servicio.id" :value="servicio.id">
+                            {{ servicio.nombre + " - " + servicio.tiempo_estimado + " min" }}
+                        </option>
+                    </select>
+                </div>
                 <div class="mb-3">
                     <button :class="{ disabled: tieneServicio && (!isAdmin && !isTecnico) }" class="btn btn-primary" @click="onActualizar(incidencias[0])">Actualizar</button>
                     <button :class="{ disabled: tieneServicio || (!isAdmin || !isTecnico) }" class="btn btn-outline-primary ms-2" @click="crearServicio(incidencias[0].id)">Iniciar servicio</button>
@@ -91,11 +99,16 @@ import { useServicios } from '@/modulos/servicios/controladores/useServicios';
 import { useUsuarios } from '@/modulos/usuarios/controladores/useUsuarios';
 import type { ServicioAgregar } from '@/modulos/servicios/interfaces/servicios-interface';
 import type { Usuario } from '@/modulos/usuarios/interfaces/usuarios-interface';
+import { useCatalogoServicios } from '@/modulos/catalogoServicios/controladores/useCatalogoServicios';
+import { useServiciosRealizados } from '@/modulos/serviciosRealizados/controladores/useServiciosRealizados';
 
 const { traeIncidenciaId, actualizarIncidencia, mensaje, incidencias } = useIncidencias();
 const { traeConfiguraciones, configuraciones } = useConfiguraciones();
 const { agregarServicio, traeServicioId, actualizarServicio, traeServicioIncidencia, servicios, mensaje: mensajeServicio } = useServicios();
 const { traeUsuarios, usuarios, usuarios: usuarioAuth } = useUsuarios();
+const { traeCatalogoServicios, catalogoServicios } = useCatalogoServicios();
+const { agregarServiciosRealizados, traeServiciosRealizadosId, serviciosRealizados } = useServiciosRealizados();
+
 
 const { getFechaYHora } = dateHelper();
 
@@ -105,6 +118,8 @@ let idIncidencia = 0;
 let tieneServicio = ref(false);
 let isAdmin = ref(false);
 let isTecnico = ref(false);
+let serviciosSeleccionados = ref<number[]>([]);
+let tieneServicioRealizado = ref(false);
 
 const categorias = [
     { id: 1, nombre: 'Hardware' },
@@ -138,12 +153,19 @@ onMounted(async () => {
     idIncidencia = Number(route.params.id);
     await traeIncidenciaId(idIncidencia);
     await traeConfiguraciones();
+    await traeCatalogoServicios();
     incidencias.value[0].fecha_creacion = getFechaYHora(incidencias.value[0].fecha_creacion);
+    if (incidencias.value[0].fecha_resolucion) {
+        incidencias.value[0].fecha_resolucion = getFechaYHora(incidencias.value[0].fecha_resolucion);
+    }
     console.log(incidencias);
 
     await traeServicioIncidencia(idIncidencia);
     if (servicios.value[0]) {
         tieneServicio.value = true;
+        await traeServiciosRealizadosId(servicios.value[0].id);
+        serviciosSeleccionados.value = serviciosRealizados.value.map((servicio) => servicio.servicio_realizado);
+        tieneServicioRealizado.value = serviciosSeleccionados.value.length > 0;
     }
     await traeUsuarios();
     usuarios.value = usuarios.value.filter((usuario: Usuario) => usuario.rol == 3);
@@ -175,8 +197,19 @@ const crearServicio = async (incidencia: number) => {
 
 const onActualizar = async (incidencia: Incidencia) => {
     // mensaje.value = 0;
+    if (incidencias.value[0].estatus === 'Rechazada') {
+        incidencia.fecha_resolucion = getFechaYHora(new Date().toISOString());
+    }
     await actualizarIncidencia(incidencia);
     await actualizarServicio(servicios.value[0]);
+
+    // Guardar servicios realizados
+    for (const idServicio of serviciosSeleccionados.value) {
+        await agregarServiciosRealizados({
+            servicio_asignado: servicios.value[0].id,
+            servicio_realizado: idServicio
+        });
+    }
 };
 
 const onLiberarIncidencia = async () => {
@@ -188,6 +221,7 @@ const onLiberarIncidencia = async () => {
 
 const resolverIncidencia = async ( incidencia: Incidencia ) => {
     incidencia.estatus = 'Terminada';
+    incidencia.fecha_resolucion = getFechaYHora(new Date().toISOString());
     await onActualizar(incidencia);
 }
     
