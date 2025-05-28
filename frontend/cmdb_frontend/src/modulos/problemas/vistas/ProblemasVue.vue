@@ -55,8 +55,8 @@
                     <td> {{ problema.causa_raiz }} </td>
                     <td> {{ problema.solucion || 'N/A' }} </td>
                     <td> {{ problema.estatus }} </td>
-                    <td> {{ problema.fecha_creacion }} </td>
-                    <td> {{ problema.fecha_resolucion || 'N/A' }} </td>
+                    <td> {{ getFechaYHora(problema.fecha_creacion) }} </td>
+                    <td> {{ getFechaYHora(problema.fecha_creacion) || 'N/A' }} </td>
                     <td> {{ muestraDepartamento(problema.departamento) }} </td>
                     <td> {{ muestraResponsable(problema.responsable || 0) }} </td>
                     <td class="centrado">
