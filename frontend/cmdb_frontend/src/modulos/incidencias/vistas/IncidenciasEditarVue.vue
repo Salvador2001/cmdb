@@ -67,11 +67,11 @@
                 </div>
                 <div v-if="tieneServicio" class="mb-3">
                     Diagnóstico
-                    <textarea class="form-control" :disabled="!isAdmin && !isTecnico" v-model="servicios[0].diagnostico"></textarea>
+                    <textarea class="form-control" :disabled="!isTecnico || isAdmin" v-model="servicios[0].diagnostico"></textarea>
                 </div>
                 <div v-if="tieneServicio" class="mb-3">
                     Servicios realizados
-                    <select :disabled=" tieneServicioRealizado " class="form-control" multiple v-model="serviciosSeleccionados">
+                    <select :disabled=" tieneServicioRealizado || isAdmin" class="form-control" multiple v-model="serviciosSeleccionados">
                         <option v-for="servicio in catalogoServicios" :key="servicio.id" :value="servicio.id">
                             {{ servicio.nombre + " - " + servicio.tiempo_estimado + " min" }}
                         </option>
