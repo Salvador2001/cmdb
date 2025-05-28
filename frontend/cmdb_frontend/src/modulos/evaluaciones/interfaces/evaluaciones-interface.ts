@@ -14,3 +14,13 @@ export interface EvaluacionAgregar {
     evaluador: number;
     servicio: number;
 }
+
+export interface EvaluacionVista {
+    id: number,
+    incidencia: string,
+    responsable: string,
+    puntaje: string,
+    comentario: string,
+    evaluador: string,
+    fecha: string
+}

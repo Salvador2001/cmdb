@@ -24,6 +24,9 @@
                         <li v-if="authed && (tienePermsProblemas || isAdmin)" class="nav-item margin">
                             <RouterLink class="nav-link item" to="/problemas">Problemas</RouterLink>
                         </li>
+                        <li v-if="authed && isAdmin" class="nav-item margin">
+                            <RouterLink class="nav-link item" to="/evaluaciones">Evaluaciones</RouterLink>
+                        </li>
                    </ul>
                 </div>
             </div>
