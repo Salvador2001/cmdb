@@ -10,6 +10,8 @@ export interface Problema {
     departamento: number;
     responsable: number | null;
     fecha_resolucion: string | null;
+    descripcion: string;
+    fecha_asignacion: string | null;
 }
 
 export interface ProblemaNuevo {
@@ -23,4 +25,6 @@ export interface ProblemaNuevo {
     departamento: number;
     responsable: number | null;
     fecha_resolucion: string | null;
+    descripcion: string;
+    fecha_asignacion: string | null;
 }

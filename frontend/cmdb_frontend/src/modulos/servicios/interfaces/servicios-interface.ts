@@ -4,6 +4,7 @@ export interface Servicio {
     incidencia: number;
     responsable: number | null;
     diagnostico: string | null;
+    fecha_asignacion: string | null;
 }
 
 export interface ServicioAgregar {
@@ -11,4 +12,5 @@ export interface ServicioAgregar {
     incidencia: number;
     responsable: number | null;
     diagnostico: string | null;
+    fecha_asignacion: string | null;
 }

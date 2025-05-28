@@ -31,6 +31,7 @@
                 <tr>
                     <!-- <th>Id</th> -->
                     <th>Folio</th>
+                    <th>Descripción</th>
                     <th>Error conocido</th>
                     <th>Causa raíz</th>
                     <th>Solución</th>
@@ -44,11 +45,12 @@
             </thead>
             <tbody v-if="isAdmin == true || isTecnico == true">
                 <tr v-if="listaProblemasCategorizados.length === 0">
-                    <td class="centrado" colspan="11">Sin problemas registrados</td>
+                    <td class="centrado" colspan="12">Sin problemas registrados</td>
                 </tr>
                 <tr v-else v-for="(problema, index) in listaProblemasCategorizados" :key="index">
                     <!-- <td> {{ problema.id }} </td> -->
                     <td> {{ problema.folio }} </td>
+                    <td> {{ problema.descripcion }} </td>
                     <td> {{ problema.error_conocido }} </td>
                     <td> {{ problema.causa_raiz }} </td>
                     <td> {{ problema.solucion || 'N/A' }} </td>
@@ -84,8 +86,8 @@ import type { Problema } from '../interfaces/problemas-interface';
 import { useDepartamentos } from '@/modulos/departamentos/controladores/useDepartamentos';
 import { useUsuarios } from '@/modulos/usuarios/controladores/useUsuarios';
 const { traeProblemas, problemas } = useProblemas();
-const { traeDepartamentoId, departamentos } = useDepartamentos();
-const { traeUsuarioId, usuarios: nombreResponsable} = useUsuarios();
+const { traeDepartamentos, traeDepartamentoId, departamentos } = useDepartamentos();
+const { traeUsuarios, traeUsuarioId, usuarios: nombreResponsable} = useUsuarios();
 const { getFechaYHora } = dateHelper();
 
     let isAdmin = ref(false)
@@ -104,6 +106,8 @@ const { getFechaYHora } = dateHelper();
             isTecnico.value = true
         }
         await traeProblemas();
+        await traeDepartamentos();
+        await traeUsuarios();
         listaProblemasCategorizados.value.forEach((problema) => {
             problema.fecha_creacion = getFechaYHora(problema.fecha_creacion);
         })
@@ -126,12 +130,10 @@ const { getFechaYHora } = dateHelper();
     }
 
     const muestraDepartamento = (departamentoId: number) => {
-        traeDepartamentoId(departamentoId)
         return departamentos.value.find(departamento => departamento.id === departamentoId)?.nombre || 'N/A'
     }
 
     const muestraResponsable = (responsableId: number) => {
-        traeUsuarioId(responsableId)
         return nombreResponsable.value.find(usuario => usuario.id === responsableId)?.nombre || 'N/A'
     }
     // load <--- carga, en memoria

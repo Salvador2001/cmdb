@@ -17,6 +17,10 @@
                     <input type="text" class="form-control" v-model="problemas[0].folio" disabled>
                 </div>
                 <div class="mb-3">
+                    Descripción
+                    <textarea class="form-control" v-model="problemas[0].descripcion"></textarea>
+                </div>
+                <div class="mb-3">
                     Incidencias relacionadas
                     <select class="form-control" multiple v-model="incidenciasSeleccionadas">
                         <option v-for="incidencia in incidencias" :key="incidencia.id" :value="incidencia.id">
@@ -64,6 +68,10 @@
                     </select>
                 </div> -->
                 <div class="mb-3">
+                    Fecha de asignación
+                    <input type="text" class="form-control" v-model="problemas[0].fecha_asignacion" disabled>
+                </div>
+                <div class="mb-3">
                     Asignar a técnico responsable
                     <select :disabled=" !isAdmin " class="form-control" v-model="problemas[0].responsable">
                         <option value="" disabled>Seleccione un técnico...</option>
@@ -104,6 +112,7 @@ let idProblema = 0;
 let isAdmin = ref(false);
 let isTecnico = ref(false);
 let incidenciasSeleccionadas = ref<number[]>([]);
+let campoTecnicoAsignado = ref();
 
 const estatusList = [
     { id: 1, nombre: 'Identificado' },
@@ -133,6 +142,7 @@ onMounted(async () => {
     await traeDepartamentos();
     await traeIncidencias();
     await traeIncidenciasProblemaId(idProblema);
+    campoTecnicoAsignado.value = problemas.value[0].responsable;
     if (incidenciasProblema.value.length > 0) {
         incidenciasSeleccionadas.value = incidenciasProblema.value.map(incidencia => incidencia.incidencia);
     }
@@ -149,6 +159,12 @@ const onActualizar = async (problema: Problema) => {
         problema.fecha_resolucion = getFechaYHora(new Date().toISOString());
     } else {
         problema.fecha_resolucion = null;
+    }
+    if (problema.responsable && problema.responsable !== campoTecnicoAsignado.value) {
+        problema.fecha_asignacion = getFechaYHora(new Date().toISOString());
+    }
+    if (problema.fecha_asignacion){
+        problema.fecha_asignacion = getFechaYHora(problema.fecha_asignacion);
     }
     // Actualizar incidencias relacionadas
     for (const incidenciaId of incidenciasSeleccionadas.value) {

@@ -30,8 +30,8 @@ router.get('/responsable/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { tipo, incidencia, responsable, diagnostico } = req.body;
-        const nuevo = await serviciosServices.agregarServicio({ tipo, incidencia, responsable, diagnostico });
+        const { tipo, incidencia, responsable, diagnostico, fecha_asignacion } = req.body;
+        const nuevo = await serviciosServices.agregarServicio({ tipo, incidencia, responsable, diagnostico, fecha_asignacion });
         res.send(nuevo);
     } catch (err) {
         res.send('No se puede agregar el servicio');
@@ -40,8 +40,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, tipo, incidencia, responsable, diagnostico } = req.body;
-        const modificado = await serviciosServices.modificarServicio({ id, tipo, incidencia, responsable, diagnostico });
+        const { id, tipo, incidencia, responsable, diagnostico, fecha_asignacion } = req.body;
+        const modificado = await serviciosServices.modificarServicio({ id, tipo, incidencia, responsable, diagnostico, fecha_asignacion });
         res.send(modificado);
     } catch (e) {
         res.status(400).send("Error en los datos");

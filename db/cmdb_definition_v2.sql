@@ -288,3 +288,12 @@ ADD COLUMN fecha_resolucion DATETIME DEFAULT NULL;
 
 ALTER TABLE `Problemas`
 DROP COLUMN prioridad;
+
+ALTER TABLE `Problemas`
+ADD COLUMN descripcion TEXT CHARACTER SET utf8mb4 DEFAULT NULL;
+
+ALTER TABLE `Problemas`
+ADD COLUMN fecha_asignacion DATETIME DEFAULT NULL;
+
+ALTER TABLE Servicios
+ADD COLUMN fecha_asignacion DATETIME DEFAULT NULL;

@@ -15,8 +15,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const { folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable } = req.body;
-        const nuevo = await problemasServices.agregarProblema({ folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable });
+        const { folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable, descripcion, fecha_asignacion } = req.body;
+        const nuevo = await problemasServices.agregarProblema({ folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable, descripcion, fecha_asignacion });
         res.send(nuevo);
     } catch (err) {
         res.send('No se puede agregar el problema');
@@ -25,8 +25,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/', async (req: Request, res: Response) => {
     try {
-        const { id, folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable } = req.body;
-        const modificada = await problemasServices.editarProblema({ id, folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable });
+        const { id, folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable, descripcion, fecha_asignacion } = req.body;
+        const modificada = await problemasServices.editarProblema({ id, folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable, descripcion, fecha_asignacion });
         res.send(modificada);
     } catch (e) {
         res.status(400).send("Error en los datos");

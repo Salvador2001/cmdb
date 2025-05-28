@@ -31,8 +31,8 @@ export const encuentraProblema = async (id: number) => {
 export const agregarProblema = async (nuevo: ProblemaNuevo) => {
     try {
         const [results] = await conexion.query(
-            'INSERT INTO Problemas (folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [nuevo.folio, nuevo.error_conocido, nuevo.causa_raiz, nuevo.solucion, nuevo.estatus, nuevo.fecha_creacion, nuevo.fecha_resolucion, nuevo.autor, nuevo.departamento, nuevo.responsable]
+            'INSERT INTO Problemas (folio, error_conocido, causa_raiz, solucion, estatus, fecha_creacion, fecha_resolucion, autor, departamento, responsable, descripcion, fecha_asignacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [nuevo.folio, nuevo.error_conocido, nuevo.causa_raiz, nuevo.solucion, nuevo.estatus, nuevo.fecha_creacion, nuevo.fecha_resolucion, nuevo.autor, nuevo.departamento, nuevo.responsable, nuevo.descripcion, nuevo.fecha_asignacion]
         );
         return results;
     } catch (err) {
@@ -43,8 +43,8 @@ export const agregarProblema = async (nuevo: ProblemaNuevo) => {
 export const editarProblema = async (modificada: Problema) => {
     try {
         const [results] = await conexion.query(
-            'UPDATE Problemas SET folio=?, error_conocido=?, causa_raiz=?, solucion=?, estatus=?, fecha_creacion=?, fecha_resolucion=?, autor=?, departamento=?, responsable=? WHERE id=?',
-            [modificada.folio, modificada.error_conocido, modificada.causa_raiz, modificada.solucion, modificada.estatus, modificada.fecha_creacion, modificada.fecha_resolucion, modificada.autor, modificada.departamento, modificada.responsable, modificada.id]
+            'UPDATE Problemas SET folio=?, error_conocido=?, causa_raiz=?, solucion=?, estatus=?, fecha_creacion=?, fecha_resolucion=?, autor=?, departamento=?, responsable=?, descripcion=?, fecha_asignacion=? WHERE id=?',
+            [modificada.folio, modificada.error_conocido, modificada.causa_raiz, modificada.solucion, modificada.estatus, modificada.fecha_creacion, modificada.fecha_resolucion, modificada.autor, modificada.departamento, modificada.responsable, modificada.descripcion, modificada.fecha_asignacion, modificada.id]
         );
         return results;
     } catch (err) {

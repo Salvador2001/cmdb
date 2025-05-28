@@ -10,6 +10,11 @@
             <div class="card-body">
                 <Form @submit="onTodoBien">
                     <div class="mb-3">
+                        Descripción
+                        <Field name="descripcion" as="textarea" type="text" class="form-control" v-model="problema.descripcion" />
+                        <ErrorMessage name="descripcion" class="errorValidacion" />
+                    </div>
+                    <div class="mb-3">
                         Error conocido
                         <Field name="error_conocido" type="text" class="form-control" v-model="problema.error_conocido" />
                         <ErrorMessage name="error_conocido" class="errorValidacion" />
@@ -69,6 +74,7 @@ let usuario = ref();
 
 let problema = ref<ProblemaAgregar>({
     folio: '',
+    descripcion: '',
     error_conocido: '',
     causa_raiz: '',
     solucion: '',
@@ -76,7 +82,8 @@ let problema = ref<ProblemaAgregar>({
     responsable: null,
     fecha_creacion: '',
     departamento: 0,
-    autor: 0
+    autor: 0,
+    fecha_asignacion: null
 });
 
 onMounted(async () => {

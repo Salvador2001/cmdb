@@ -57,6 +57,10 @@
                     </select>
                 </div>
                 <div v-if="tieneServicio" class="mb-3">
+                    Fecha de asignación
+                    <input type="text" class="form-control" disabled v-model="servicios[0].fecha_asignacion">
+                </div>
+                <div v-if="tieneServicio" class="mb-3">
                     Asignar a técnico
                     <select class="form-control" :disabled="!isAdmin || !isTecnico" v-model="servicios[0].responsable">
                         <option value="" disabled>Seleccione un técnico...</option>
@@ -120,6 +124,7 @@ let isAdmin = ref(false);
 let isTecnico = ref(false);
 let serviciosSeleccionados = ref<number[]>([]);
 let tieneServicioRealizado = ref(false);
+let campoTecnicoAsignado = ref();
 
 const categorias = [
     { id: 1, nombre: 'Hardware' },
@@ -163,6 +168,7 @@ onMounted(async () => {
     await traeServicioIncidencia(idIncidencia);
     if (servicios.value[0]) {
         tieneServicio.value = true;
+        campoTecnicoAsignado.value = servicios.value[0].responsable;
         await traeServiciosRealizadosId(servicios.value[0].id);
         serviciosSeleccionados.value = serviciosRealizados.value.map((servicio) => servicio.servicio_realizado);
         tieneServicioRealizado.value = serviciosSeleccionados.value.length > 0;
@@ -182,7 +188,8 @@ const crearServicio = async (incidencia: number) => {
         tipo: incidencias.value[0].categoria,
         incidencia: incidencia,
         responsable: null,
-        diagnostico: null
+        diagnostico: null,
+        fecha_asignacion: null
     };
     // servicios.value[0].tipo = incidencias.value[0].categoria;
     // servicios.value[0].id = incidencia;
@@ -199,6 +206,12 @@ const onActualizar = async (incidencia: Incidencia) => {
     // mensaje.value = 0;
     if (incidencias.value[0].estatus === 'Rechazada') {
         incidencia.fecha_resolucion = getFechaYHora(new Date().toISOString());
+    }
+    if (servicios.value[0].responsable && servicios.value[0].responsable !== campoTecnicoAsignado.value) {
+        servicios.value[0].fecha_asignacion = getFechaYHora(new Date().toISOString());
+    }
+    if (servicios.value[0].fecha_asignacion) {
+        servicios.value[0].fecha_asignacion = getFechaYHora(servicios.value[0].fecha_asignacion);
     }
     await actualizarIncidencia(incidencia);
     await actualizarServicio(servicios.value[0]);
