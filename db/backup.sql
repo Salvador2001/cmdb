@@ -158,6 +158,31 @@ LOCK TABLES `BitacoraUsuarios` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `CatalogoServicios`
+--
+
+DROP TABLE IF EXISTS `CatalogoServicios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CatalogoServicios` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tiempo_estimado` int unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CatalogoServicios`
+--
+
+LOCK TABLES `CatalogoServicios` WRITE;
+/*!40000 ALTER TABLE `CatalogoServicios` DISABLE KEYS */;
+INSERT INTO `CatalogoServicios` VALUES (1,'Formatear configuración',30),(2,'Reemplazar una pieza',25),(3,'Respaldar datos',60),(4,'Actualizar sistema operativo',50),(5,'Instalar software adicional',25),(6,'Mantenimiento preventivo del equipo',10),(7,'Diagnóstico de fallas',20),(8,'Configuración de red',35);
+/*!40000 ALTER TABLE `CatalogoServicios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Componentes`
 --
 
@@ -249,7 +274,7 @@ CREATE TABLE `ConjuntoSoftware` (
 
 LOCK TABLES `ConjuntoSoftware` WRITE;
 /*!40000 ALTER TABLE `ConjuntoSoftware` DISABLE KEYS */;
-INSERT INTO `ConjuntoSoftware` VALUES (1,1),(2,2),(3,3),(4,4),(5,5);
+INSERT INTO `ConjuntoSoftware` VALUES (1,1),(1,10),(2,2),(2,10),(3,3),(3,10),(4,4),(4,10),(5,5);
 /*!40000 ALTER TABLE `ConjuntoSoftware` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,7 +430,7 @@ CREATE TABLE `Evaluaciones` (
   KEY `servicio` (`servicio`),
   CONSTRAINT `Evaluaciones_ibfk_1` FOREIGN KEY (`evaluador`) REFERENCES `Usuarios` (`id`),
   CONSTRAINT `Evaluaciones_ibfk_2` FOREIGN KEY (`servicio`) REFERENCES `Servicios` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -414,6 +439,7 @@ CREATE TABLE `Evaluaciones` (
 
 LOCK TABLES `Evaluaciones` WRITE;
 /*!40000 ALTER TABLE `Evaluaciones` DISABLE KEYS */;
+INSERT INTO `Evaluaciones` VALUES (5,'2025-05-15 06:30:00','Terrible','La pantalla volvió a fallar a los 5 min',2,5),(6,'2025-05-27 17:34:00','Regular','Dejo el teclado un poco flojo',1,7),(7,'2025-05-28 01:54:00','Excelente','muy bien',2,9);
 /*!40000 ALTER TABLE `Evaluaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,6 +461,7 @@ CREATE TABLE `Incidencias` (
   `autor` int unsigned NOT NULL,
   `configuracion` int unsigned NOT NULL,
   `departamento` int unsigned NOT NULL,
+  `fecha_resolucion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `folio` (`folio`),
   KEY `autor` (`autor`),
@@ -443,7 +470,7 @@ CREATE TABLE `Incidencias` (
   CONSTRAINT `Incidencias_ibfk_1` FOREIGN KEY (`autor`) REFERENCES `Usuarios` (`id`),
   CONSTRAINT `Incidencias_ibfk_2` FOREIGN KEY (`configuracion`) REFERENCES `Configuraciones` (`id`),
   CONSTRAINT `Incidencias_ibfk_3` FOREIGN KEY (`departamento`) REFERENCES `Departamentos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -452,8 +479,77 @@ CREATE TABLE `Incidencias` (
 
 LOCK TABLES `Incidencias` WRITE;
 /*!40000 ALTER TABLE `Incidencias` DISABLE KEYS */;
-INSERT INTO `Incidencias` VALUES (1,'INC001','Error en el sistema operativo','Software','Alta','Abierta','2023-10-01 10:00:00',1,1,1),(2,'INC002','Fallo en el hardware','Hardware','Media','En Proceso','2023-10-02 11:30:00',2,2,2),(3,'INC003','Problema de red en oficina','Red','Alta','Terminada','2023-10-03 09:15:00',3,3,3),(4,'INC004','Actualización de software pendiente','Software','Baja','Liberada','2023-10-04 14:45:00',4,4,4),(5,'INC005','Impresora no responde','Hardware','Media','Rechazada','2023-10-05 08:20:00',5,5,5),(19,'Test2381','Problema con la pantalla, no se muestra','Hardware','N/A','Abierta','2025-04-09 13:48:00',1,1,1),(20,'Test0202','Virus','Software','Alta','En Proceso','2025-04-10 03:17:00',1,10,1),(21,'Test003','Pantalla rota','Hardware','N/A','Abierta','2025-04-10 03:23:00',1,1,1),(22,'Test004','asdasdadasd','Otros','Baja','Rechazada','2025-04-10 03:28:00',1,4,1),(23,'Prua123','Pantalla parpadea mucho','Hardware','Media','En Proceso','2025-04-10 17:37:00',2,1,2);
+INSERT INTO `Incidencias` VALUES (1,'INC001','Error en el sistema operativo','Software','Alta','Abierta','2023-10-01 10:00:00',1,1,1,NULL),(2,'INC002','Fallo en el hardware','Hardware','Media','En Proceso','2023-10-02 11:30:00',2,2,2,NULL),(3,'INC003','Problema de red en oficina','Red','Alta','Terminada','2023-10-03 09:15:00',3,3,3,NULL),(4,'INC004','Actualización de software pendiente','Software','Baja','Liberada','2023-10-04 14:45:00',4,4,4,NULL),(5,'INC005','Impresora no responde','Hardware','Media','Rechazada','2023-10-05 08:20:00',5,5,5,NULL),(19,'Test2381','Problema con la pantalla, no se muestra','Hardware','N/A','Abierta','2025-04-09 13:48:00',1,1,1,NULL),(20,'Test0202','Virus','Software','Alta','Terminada','2025-04-10 03:17:00',1,10,1,NULL),(21,'Test003','Pantalla rota','Hardware','N/A','Abierta','2025-04-10 03:23:00',1,1,1,NULL),(22,'Test004','asdasdadasd','Otros','Baja','Rechazada','2025-04-10 03:28:00',1,4,1,'2025-05-27 06:47:00'),(23,'Prua123','Pantalla parpadea mucho','Hardware','Media','Liberada','2025-04-10 17:37:00',2,1,2,NULL),(24,'test01','Pantalla se prende y se apaga.','Hardware','N/A','Abierta','2025-05-21 17:25:00',1,1,1,NULL),(25,'I-410575','Archivos corruptos dentro de cierta carpeta','Otros','Baja','Terminada','2025-05-26 22:56:00',1,10,1,'2025-05-26 23:06:00'),(26,'I-398012','Teclado no funciona','Hardware','Media','Liberada','2025-05-27 17:25:00',2,2,2,'2025-05-27 17:31:00'),(27,'I-151783','Problema genérico','Red','Baja','Terminada','2025-05-28 01:42:00',1,2,1,'2025-05-28 01:43:00'),(28,'I-360933','prob gen 2','Otros','Baja','Liberada','2025-05-28 01:48:00',2,1,2,'2025-05-28 01:51:00'),(29,'I-414787','test','Software','Alta','En Proceso','2025-05-28 05:41:00',1,3,1,NULL);
 /*!40000 ALTER TABLE `Incidencias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IncidenciasProblema`
+--
+
+DROP TABLE IF EXISTS `IncidenciasProblema`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `IncidenciasProblema` (
+  `incidencia` int unsigned NOT NULL,
+  `problema` int unsigned NOT NULL,
+  PRIMARY KEY (`incidencia`,`problema`),
+  KEY `problema` (`problema`),
+  CONSTRAINT `IncidenciasProblema_ibfk_1` FOREIGN KEY (`incidencia`) REFERENCES `Incidencias` (`id`),
+  CONSTRAINT `IncidenciasProblema_ibfk_2` FOREIGN KEY (`problema`) REFERENCES `Problemas` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IncidenciasProblema`
+--
+
+LOCK TABLES `IncidenciasProblema` WRITE;
+/*!40000 ALTER TABLE `IncidenciasProblema` DISABLE KEYS */;
+INSERT INTO `IncidenciasProblema` VALUES (24,2),(3,4),(1,5);
+/*!40000 ALTER TABLE `IncidenciasProblema` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Problemas`
+--
+
+DROP TABLE IF EXISTS `Problemas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Problemas` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `folio` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `error_conocido` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `causa_raiz` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `solucion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `estatus` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `fecha_creacion` datetime NOT NULL,
+  `autor` int unsigned NOT NULL,
+  `departamento` int unsigned NOT NULL,
+  `responsable` int unsigned DEFAULT NULL,
+  `fecha_resolucion` datetime DEFAULT NULL,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `fecha_asignacion` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `folio` (`folio`),
+  KEY `autor` (`autor`),
+  KEY `departamento` (`departamento`),
+  KEY `responsable` (`responsable`),
+  CONSTRAINT `Problemas_ibfk_1` FOREIGN KEY (`autor`) REFERENCES `Usuarios` (`id`),
+  CONSTRAINT `Problemas_ibfk_2` FOREIGN KEY (`departamento`) REFERENCES `Departamentos` (`id`),
+  CONSTRAINT `Problemas_ibfk_3` FOREIGN KEY (`responsable`) REFERENCES `Usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Problemas`
+--
+
+LOCK TABLES `Problemas` WRITE;
+/*!40000 ALTER TABLE `Problemas` DISABLE KEYS */;
+INSERT INTO `Problemas` VALUES (1,'P-418733','Problema de red masivo','Mala configuración de router','Realizar una reconfiguración','En Proceso','2025-05-17 08:16:00',1,1,5,NULL,NULL,NULL),(2,'P-038435','Fallos de voltaje','Comisión federal','Solicitar ante comisión federal un diagnóstico en el instituto, en el área asignada.','Liberado','2025-05-21 17:34:00',1,1,5,'2025-05-27 07:21:00',NULL,NULL),(3,'P-309666','Problema genérico','Causa genérica','Solución genérica','Resuelto','2025-05-26 23:11:00',1,1,5,'2025-05-26 23:12:00',NULL,NULL),(4,'P-829097','Fallo en red de area de sistemas','Router mal configurado','Reconfigurar el router','Resuelto','2025-05-27 17:37:00',1,1,5,'2025-05-27 17:39:00',NULL,NULL),(5,'P-489777','error prueba','raiz','soluciones','Identificado','2025-05-28 05:36:00',1,3,5,NULL,'prueba','2025-05-28 05:36:00'),(6,'P-504420','sdsdsd','sdsdsd','sdsdsd','En Proceso','2025-05-28 05:42:00',1,1,5,NULL,'dfdssdds','2025-05-28 05:43:00');
+/*!40000 ALTER TABLE `Problemas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -467,7 +563,7 @@ CREATE TABLE `Roles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -476,7 +572,7 @@ CREATE TABLE `Roles` (
 
 LOCK TABLES `Roles` WRITE;
 /*!40000 ALTER TABLE `Roles` DISABLE KEYS */;
-INSERT INTO `Roles` VALUES (1,'Administrador'),(2,'Jefe departamento'),(3,'Soporte técnico'),(4,'Usuario'),(5,'Docente');
+INSERT INTO `Roles` VALUES (1,'Administrador'),(2,'Jefe departamento'),(3,'Técnico de Hardware'),(4,'Usuario'),(5,'Docente'),(6,'Técnico de Software'),(7,'Técnico de Redes'),(8,'Técnico asistente'),(9,'Técnico de Problemas');
 /*!40000 ALTER TABLE `Roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -492,12 +588,14 @@ CREATE TABLE `Servicios` (
   `tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `incidencia` int unsigned NOT NULL,
   `responsable` int unsigned DEFAULT NULL,
+  `diagnostico` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `fecha_asignacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `incidencia` (`incidencia`),
   KEY `responsable` (`responsable`),
   CONSTRAINT `Servicios_ibfk_1` FOREIGN KEY (`incidencia`) REFERENCES `Incidencias` (`id`),
   CONSTRAINT `Servicios_ibfk_2` FOREIGN KEY (`responsable`) REFERENCES `Usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -506,7 +604,7 @@ CREATE TABLE `Servicios` (
 
 LOCK TABLES `Servicios` WRITE;
 /*!40000 ALTER TABLE `Servicios` DISABLE KEYS */;
-INSERT INTO `Servicios` VALUES (1,'Hardware',19,NULL),(2,'Software',20,3),(3,'Hardware',21,NULL),(4,'Otros',22,3),(5,'Hardware',23,3);
+INSERT INTO `Servicios` VALUES (1,'Hardware',19,NULL,NULL,NULL),(2,'Software',20,3,'El problema se debe a que descargó un archivo malintencionado.',NULL),(3,'Hardware',21,NULL,NULL,NULL),(4,'Otros',22,3,'no',NULL),(5,'Hardware',23,3,'La pantalla está dañada.',NULL),(6,'Otros',25,3,'Un programa ha corrompido el archivo',NULL),(7,'Hardware',26,3,'Esta dañado el teclado',NULL),(8,'Red',27,3,'dadada','2025-05-28 05:24:00'),(9,'Otros',28,3,'prueba',NULL),(10,'Software',29,3,NULL,'2025-05-28 05:41:00');
 /*!40000 ALTER TABLE `Servicios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -534,6 +632,33 @@ CREATE TABLE `ServiciosAsignados` (
 LOCK TABLES `ServiciosAsignados` WRITE;
 /*!40000 ALTER TABLE `ServiciosAsignados` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ServiciosAsignados` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ServiciosRealizados`
+--
+
+DROP TABLE IF EXISTS `ServiciosRealizados`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ServiciosRealizados` (
+  `servicio_asignado` int unsigned NOT NULL,
+  `servicio_realizado` int unsigned NOT NULL,
+  PRIMARY KEY (`servicio_asignado`,`servicio_realizado`),
+  KEY `servicio_realizado` (`servicio_realizado`),
+  CONSTRAINT `ServiciosRealizados_ibfk_1` FOREIGN KEY (`servicio_asignado`) REFERENCES `Servicios` (`id`),
+  CONSTRAINT `ServiciosRealizados_ibfk_2` FOREIGN KEY (`servicio_realizado`) REFERENCES `CatalogoServicios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ServiciosRealizados`
+--
+
+LOCK TABLES `ServiciosRealizados` WRITE;
+/*!40000 ALTER TABLE `ServiciosRealizados` DISABLE KEYS */;
+INSERT INTO `ServiciosRealizados` VALUES (6,1),(6,2),(7,2),(6,3),(9,3),(8,8);
+/*!40000 ALTER TABLE `ServiciosRealizados` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -578,12 +703,12 @@ CREATE TABLE `SolicitudesCambio` (
   `estatus` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `requiere_comite` tinyint(1) DEFAULT '0',
   `servicio` int unsigned NOT NULL,
-  `folio` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `presupuesto` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `folio` (`folio`),
   KEY `servicio` (`servicio`),
   CONSTRAINT `SolicitudesCambio_ibfk_1` FOREIGN KEY (`servicio`) REFERENCES `Servicios` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -592,6 +717,7 @@ CREATE TABLE `SolicitudesCambio` (
 
 LOCK TABLES `SolicitudesCambio` WRITE;
 /*!40000 ALTER TABLE `SolicitudesCambio` DISABLE KEYS */;
+INSERT INTO `SolicitudesCambio` VALUES (1,'2025-05-05 00:00:00','Pendiente',1,5,'Se requiere cambiar la pantalla por una nueva',720.50),(6,'2025-05-27 17:30:00','Aceptada',0,7,'Solicito reemplazar teclado de laptop hp',150.00);
 /*!40000 ALTER TABLE `SolicitudesCambio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -651,7 +777,7 @@ CREATE TABLE `Usuarios` (
 
 LOCK TABLES `Usuarios` WRITE;
 /*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
-INSERT INTO `Usuarios` VALUES (1,'Carlos Pérez',1,1),(2,'Ana García',2,2),(3,'Luis Martínez',3,3),(4,'Marta López',4,4),(5,'José Fernández',5,5),(9,'testing1',1,1),(10,'testing2',1,1),(11,'testing3',1,1),(12,'testing4',1,1),(13,'testing5',1,1),(14,'testing6',1,1),(15,'testing7',1,1),(16,'testing8',1,1),(17,'aaaaaaaa',1,1),(18,'testing9',1,1),(19,'testing10',2,2),(20,'salvador',2,1);
+INSERT INTO `Usuarios` VALUES (1,'Carlos Pérez',1,1),(2,'Ana García',2,2),(3,'Luis Martínez',3,3),(4,'Marta López',4,4),(5,'José Fernández',9,1),(9,'testing1',1,1),(10,'testing2',1,1),(11,'testing3',1,1),(12,'testing4',1,1),(13,'testing5',1,1),(14,'testing6',1,1),(15,'testing7',1,1),(16,'testing8',1,1),(17,'aaaaaaaa',1,1),(18,'testing9',1,1),(19,'testing10',2,2),(20,'salvador',2,1);
 /*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -664,4 +790,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-10 20:24:24
+-- Dump completed on 2025-06-05 23:46:25

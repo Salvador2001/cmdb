@@ -1,0 +1,15 @@
+Extensiones instaladas en Codespaces: vigilant enigma:
+christian-kohler.path-intellisense
+cweijan.dbclient-jdbc
+cweijan.vscode-mysql-client2
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+formulahendry.auto-close-tag
+formulahendry.auto-rename-tag
+humao.rest-client
+misterj.vue-volar-extention-pack
+ms-ceintl.vscode-language-pack-es
+sdras.vue-vscode-snippets
+sibiraj-s.vscode-scss-formatter
+syler.sass-indented
+vue.volar
